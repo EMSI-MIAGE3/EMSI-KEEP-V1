@@ -1,5 +1,6 @@
 package emsi.com.appemploidutremps;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -65,15 +66,27 @@ public class LoginUser extends AppCompatActivity {
                                         FirebaseUser user = userAuth.getCurrentUser();
 
                                         Log.w(TAG, "UserIS=>" + user.getEmail());
-                                        ClasseDAO.getInstance().getClasseDAO()
-                                                .whereArrayContains("etudiants", user.getUid())
+                                        UserDAO.getInstance().getUserDAO()
+                                                .whereEqualTo("id", user.getUid())
                                                 .get()
                                                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                         if (task.isSuccessful()) {
+                                                            Intent intent=null;
                                                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                                                Log.w(TAG, "ClassIS=>" + document.toObject(Classe.class).toString());
+                                                                User connectedUser=(User)document.toObject(User.class);
+                                                                switch (connectedUser.getRole()){
+                                                                    case "Etudiant" :intent=new Intent(LoginUser.this,TestActivity.class);
+                                                                    break;
+                                                                    case "Professeur" :intent=new Intent(LoginUser.this,Login.class);
+                                                                    break;
+                                                                    case "Administrateur" :intent=new Intent(LoginUser.this,AdminActivity.class);
+                                                                    break;
+                                                                }
+                                                                intent.putExtra("Classe",connectedUser);
+                                                                startActivity(intent);
+                                                                break;
                                                             }
                                                         } else {
                                                             Log.d(TAG, "Error getting documents: ", task.getException());

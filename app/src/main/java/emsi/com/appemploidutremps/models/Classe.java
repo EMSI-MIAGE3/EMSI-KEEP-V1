@@ -1,9 +1,10 @@
 package emsi.com.appemploidutremps.models;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-public class Classe {
+public class Classe implements Serializable {
 
     private String nom;
     private Filiere filiere;

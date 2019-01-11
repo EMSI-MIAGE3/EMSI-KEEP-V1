@@ -1,6 +1,8 @@
 package emsi.com.appemploidutremps.models;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
 
     protected String id;
     protected String email;
