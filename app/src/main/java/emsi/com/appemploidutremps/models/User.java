@@ -9,17 +9,10 @@ public class User implements Serializable {
     protected String nom;
     protected String prenom;
     protected String adresse;
-    protected int age;
+    protected int groupe;
     protected String role;
 
-    public User(String email, String nom, String prenom, String adresse, int age, String role) {
-        this.email = email;
-        this.nom = nom;
-        this.prenom = prenom;
-        this.adresse = adresse;
-        this.age = age;
-        this.role = role;
-    }
+
 
     public User(String email, String role) {
         this.email = email;
@@ -27,6 +20,15 @@ public class User implements Serializable {
     }
 
     public User() {
+    }
+
+    public User(String email, String nom, String prenom, String adresse, int groupe, String role) {
+        this.email = email;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.adresse = adresse;
+        this.groupe = groupe;
+        this.role = role;
     }
 
     public String getId() {
@@ -69,12 +71,12 @@ public class User implements Serializable {
         this.adresse = adresse;
     }
 
-    public int getAge() {
-        return age;
+    public int getGroupe() {
+        return groupe;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setGroupe(int groupe) {
+        this.groupe = groupe;
     }
 
     public String getRole() {
@@ -93,7 +95,7 @@ public class User implements Serializable {
                 ", nom='" + nom + '\'' +
                 ", prenom='" + prenom + '\'' +
                 ", adresse='" + adresse + '\'' +
-                ", age=" + age +
+                ", groupe=" + groupe +
                 ", role='" + role + '\'' +
                 '}';
     }

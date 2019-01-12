@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Login"></activity>
+        <activity android:name=".Login" />
         <activity android:name=".AdminActivity" />
         <activity android:name=".LoginUser">
             <intent-filter>
@@ -18,9 +18,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TestActivity">
+        <activity android:name=".TestActivity" >
 
         </activity>
+        <activity
+            android:name=".TimeTable"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_time_table"
+            android:theme="@style/FullscreenTheme"></activity>
+        <activity
+            android:name=".CalendarTimeTible"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_calendar_time_tible"
+            android:theme="@style/FullscreenTheme"></activity>
     </application>
 
 </manifest>

@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">AppEmploiDuTremps</string>
+
+    <string name="title_activity_time_table">TimeTable</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">EMSI\nTIMETIBLE</string>
+
+    <string name="title_activity_calendar_time_tible">CalendarTimeTible</string>
 </resources>

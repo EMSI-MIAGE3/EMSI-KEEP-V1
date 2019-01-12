@@ -77,14 +77,14 @@ public class LoginUser extends AppCompatActivity {
                                                             for (QueryDocumentSnapshot document : task.getResult()) {
                                                                 User connectedUser=(User)document.toObject(User.class);
                                                                 switch (connectedUser.getRole()){
-                                                                    case "Etudiant" :intent=new Intent(LoginUser.this,TestActivity.class);
+                                                                    case "Etudiant" :intent=new Intent(LoginUser.this,CalendarTimeTible.class);
                                                                     break;
                                                                     case "Professeur" :intent=new Intent(LoginUser.this,Login.class);
                                                                     break;
                                                                     case "Administrateur" :intent=new Intent(LoginUser.this,AdminActivity.class);
                                                                     break;
                                                                 }
-                                                                intent.putExtra("Classe",connectedUser);
+                                                                intent.putExtra("ConnectedUser",connectedUser);
                                                                 startActivity(intent);
                                                                 break;
                                                             }
