@@ -18,11 +18,14 @@ import android.widget.TextView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.core.OrderBy;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import emsi.com.appemploidutremps.dao.ClasseDAO;
@@ -140,69 +143,163 @@ public class TimeTable extends AppCompatActivity {
         });
 
 
-        user = (User) getIntent().getSerializableExtra("UserToTimetible");
+        user = (User) getIntent().getSerializableExtra("UserToTimetable");
         calendar = (Calendar) getIntent().getSerializableExtra("ChosenDate");
 
+        if ("Professeur".equals(user.getRole())) {
+            SeanceDAO.getInstance().getSeanceDAO().whereEqualTo("professeur.id", user.getId())
+                    .whereEqualTo("jour.jour", calendar.getTime().getDay())
+                    // .orderBy("dateDebut.heure", Query.Direction.DESCENDING)
+                    .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    seances.clear();
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Seance sc = document.toObject(Seance.class);
+                        if (sc.getJour().getDate().getDate() == calendar.getTime().getDate()
+                                && sc.getJour().getDate().getMonth() == calendar.getTime().getMonth()) {
+                            seances.add(sc);
 
-        ClasseDAO.getInstance().getClasseDAO().whereArrayContains("etudiants", user.getId()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                for (QueryDocumentSnapshot document : task.getResult()) {
-                    idClass = document.getId();
-                    cl = (Classe) document.toObject(Classe.class);
-                    //Log.w("TimeTable", cl.getNom()+"");
+                        }
+                    }
+
+                    Collections.sort(seances);
+
+                    Log.w("TimeTableSeanca", "====" + seances.size());
+                    switch (seances.size()) {
+                        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                        case 4: {
+                            entrance = (TextView) findViewById(R.id.entrance4);
+                            exit = (TextView) findViewById(R.id.exit4);
+                            cours = (TextView) findViewById(R.id.course4);
+                            clssRoom = (TextView) findViewById(R.id.classRoom4);
+
+                            entrance.setText(seances.get(3).getDateDebut().getHeure() + "h " + seances.get(3).getDateDebut().getMinute());
+                            exit.setText(seances.get(3).getDateFin().getHeure() + "h " + seances.get(3).getDateFin().getMinute());
+                            cours.setText(seances.get(3).getMatiere());
+                            clssRoom.setText(seances.get(3).getSalle() + "");
+                        }
+                        case 3: {
+                            entrance = (TextView) findViewById(R.id.entrance3);
+                            exit = (TextView) findViewById(R.id.exit3);
+                            cours = (TextView) findViewById(R.id.course3);
+                            clssRoom = (TextView) findViewById(R.id.classRoom3);
+
+                            entrance.setText(seances.get(2).getDateDebut().getHeure() + "h " + seances.get(2).getDateDebut().getMinute());
+                            exit.setText(seances.get(2).getDateFin().getHeure() + "h " + seances.get(2).getDateFin().getMinute());
+                            cours.setText(seances.get(2).getMatiere());
+                            clssRoom.setText(seances.get(2).getSalle() + "");
+                        }
+                        case 2: {
+                            entrance = (TextView) findViewById(R.id.entrance2);
+                            exit = (TextView) findViewById(R.id.exit2);
+                            cours = (TextView) findViewById(R.id.course2);
+                            clssRoom = (TextView) findViewById(R.id.classRoom2);
+
+                            entrance.setText(seances.get(1).getDateDebut().getHeure() + "h " + seances.get(1).getDateDebut().getMinute());
+                            exit.setText(seances.get(1).getDateFin().getHeure() + "h " + seances.get(1).getDateFin().getMinute());
+                            cours.setText(seances.get(1).getMatiere());
+                            clssRoom.setText(seances.get(1).getSalle() + "");
+                        }
+                        case 1: {
+                            entrance = (TextView) findViewById(R.id.entrance1);
+                            exit = (TextView) findViewById(R.id.exit1);
+                            cours = (TextView) findViewById(R.id.course1);
+                            clssRoom = (TextView) findViewById(R.id.classRoom1);
+                            entrance.setText(seances.get(0).getDateDebut().getHeure() + "h " + seances.get(0).getDateDebut().getMinute());
+                            exit.setText(seances.get(0).getDateFin().getHeure() + "h " + seances.get(0).getDateFin().getMinute());
+                            cours.setText(seances.get(0).getMatiere());
+                            clssRoom.setText(seances.get(0).getSalle() + "");
+                        }
+                    }
+
                 }
-            }
-        });
-        //Log.w("TimeTableAfter", idClass+"");
+            });
+        } else {
 
-        SeanceDAO.getInstance().getSeanceDAO().whereEqualTo("classeId", idClass)
-                .whereEqualTo("groupe", user.getGroupe())
-                .whereEqualTo("jour.jour", calendar.getTime().getDay())
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                seances.clear();
-                for (QueryDocumentSnapshot document : task.getResult()) {
-                    Seance sc = document.toObject(Seance.class);
-                    if (sc.getJour().getDate().getDate() == calendar.getTime().getDate()
-                            && sc.getJour().getDate().getMonth() == calendar.getTime().getMonth()) {
-                        seances.add(sc);
-
+            ClasseDAO.getInstance().getClasseDAO().whereArrayContains("etudiants", user.getId()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        idClass = document.getId();
+                        cl = (Classe) document.toObject(Classe.class);
+                        //Log.w("TimeTable", cl.getNom()+"");
                     }
                 }
+            });
+            //Log.w("TimeTableAfter", idClass+"");
 
 
-                Log.w("TimeTableSeanca", "====" + seances.size());
-                switch (seances.size()) {
-                    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    case 2: {
-                        entrance = (TextView) findViewById(R.id.entrance2);
-                        exit = (TextView) findViewById(R.id.exit2);
-                        cours = (TextView) findViewById(R.id.course2);
-                        clssRoom = (TextView) findViewById(R.id.classRoom2);
+            SeanceDAO.getInstance().getSeanceDAO().whereEqualTo("classeId", idClass)
+                    .whereArrayContains("groupe", user.getGroupe())
+                    .whereEqualTo("jour.jour", calendar.getTime().getDay())
+                    .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    seances.clear();
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Seance sc = document.toObject(Seance.class);
+                        if (sc.getJour().getDate().getDate() == calendar.getTime().getDate()
+                                && sc.getJour().getDate().getMonth() == calendar.getTime().getMonth()) {
+                            seances.add(sc);
 
-                        entrance.setText(seances.get(1).getDateDebut().getHeure() + "h " + seances.get(1).getDateDebut().getMinute());
-                        exit.setText(seances.get(1).getDateFin().getHeure() + "h " + seances.get(1).getDateFin().getMinute());
-                        cours.setText(seances.get(1).getMatiere());
-                        clssRoom.setText(seances.get(1).getGroupe() + "");
+                        }
                     }
-                    case 1: {
-                        entrance = (TextView) findViewById(R.id.entrance1);
-                        exit = (TextView) findViewById(R.id.exit1);
-                        cours = (TextView) findViewById(R.id.course1);
-                        clssRoom = (TextView) findViewById(R.id.classRoom1);
-                        entrance.setText(seances.get(0).getDateDebut().getHeure() + "h " + seances.get(0).getDateDebut().getMinute());
-                        exit.setText(seances.get(0).getDateFin().getHeure() + "h " + seances.get(0).getDateFin().getMinute());
-                        cours.setText(seances.get(0).getMatiere());
-                        clssRoom.setText(seances.get(0).getGroupe() + "");
+
+                    Collections.sort(seances);
+
+                    Log.w("TimeTableSeanca", "====" + seances.size());
+                    switch (seances.size()) {
+                        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                        case 4: {
+                            entrance = (TextView) findViewById(R.id.entrance4);
+                            exit = (TextView) findViewById(R.id.exit4);
+                            cours = (TextView) findViewById(R.id.course4);
+                            clssRoom = (TextView) findViewById(R.id.classRoom4);
+
+                            entrance.setText(seances.get(3).getDateDebut().getHeure() + "h " + seances.get(3).getDateDebut().getMinute());
+                            exit.setText(seances.get(3).getDateFin().getHeure() + "h " + seances.get(3).getDateFin().getMinute());
+                            cours.setText(seances.get(3).getMatiere());
+                            clssRoom.setText(seances.get(3).getSalle() + "");
+                        }
+                        case 3: {
+                            entrance = (TextView) findViewById(R.id.entrance3);
+                            exit = (TextView) findViewById(R.id.exit3);
+                            cours = (TextView) findViewById(R.id.course3);
+                            clssRoom = (TextView) findViewById(R.id.classRoom3);
+
+                            entrance.setText(seances.get(2).getDateDebut().getHeure() + "h " + seances.get(2).getDateDebut().getMinute());
+                            exit.setText(seances.get(2).getDateFin().getHeure() + "h " + seances.get(2).getDateFin().getMinute());
+                            cours.setText(seances.get(2).getMatiere());
+                            clssRoom.setText(seances.get(2).getSalle() + "");
+                        }
+                        case 2: {
+                            entrance = (TextView) findViewById(R.id.entrance2);
+                            exit = (TextView) findViewById(R.id.exit2);
+                            cours = (TextView) findViewById(R.id.course2);
+                            clssRoom = (TextView) findViewById(R.id.classRoom2);
+
+                            entrance.setText(seances.get(1).getDateDebut().getHeure() + "h " + seances.get(1).getDateDebut().getMinute());
+                            exit.setText(seances.get(1).getDateFin().getHeure() + "h " + seances.get(1).getDateFin().getMinute());
+                            cours.setText(seances.get(1).getMatiere());
+                            clssRoom.setText(seances.get(1).getSalle() + "");
+                        }
+                        case 1: {
+                            entrance = (TextView) findViewById(R.id.entrance1);
+                            exit = (TextView) findViewById(R.id.exit1);
+                            cours = (TextView) findViewById(R.id.course1);
+                            clssRoom = (TextView) findViewById(R.id.classRoom1);
+                            entrance.setText(seances.get(0).getDateDebut().getHeure() + "h " + seances.get(0).getDateDebut().getMinute());
+                            exit.setText(seances.get(0).getDateFin().getHeure() + "h " + seances.get(0).getDateFin().getMinute());
+                            cours.setText(seances.get(0).getMatiere());
+                            clssRoom.setText(seances.get(0).getSalle() + "");
+                        }
                     }
+
                 }
+            });
 
-            }
-        });
-
-
+        }
     }
 
     @Override

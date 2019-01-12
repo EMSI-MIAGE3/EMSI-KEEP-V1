@@ -127,7 +127,7 @@ public class CalendarTimeTible extends AppCompatActivity {
                 calendar.set(year,month,dayOfMonth);
                 Log.w("Click","====>"+calendar.getTime().toString());
                 Intent intent=new Intent(CalendarTimeTible.this,TimeTable.class);
-                intent.putExtra("UserToTimetible",(User) getIntent().getSerializableExtra("ConnectedUser"));
+                intent.putExtra("UserToTimetable",(User) getIntent().getSerializableExtra("ConnectedUser"));
                 intent.putExtra("ChosenDate",calendar);
                 startActivity(intent);
             }

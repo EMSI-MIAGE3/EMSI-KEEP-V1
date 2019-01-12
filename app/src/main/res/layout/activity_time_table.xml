@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0099cc"
+    android:background="@color/black_overlay"
     tools:context=".TimeTable">
 
     <!-- The primary full-screen view. This can be replaced with whatever view
@@ -39,8 +39,8 @@
             android:layout_below="@+id/surfaceView5"
             android:layout_alignParentStart="true"
             android:layout_marginStart="0dp"
-            android:layout_marginTop="25dp"
-            android:background="@color/colorPrimaryDark"
+            android:layout_marginTop="7dp"
+            android:background="@color/common_google_signin_btn_text_dark_default"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -58,7 +58,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/classRoom5"
+            android:id="@+id/classRoom3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/surfaceView6"
@@ -72,7 +72,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/course5"
+            android:id="@+id/course3"
             android:layout_width="173dp"
             android:layout_height="37dp"
             android:layout_alignTop="@+id/surfaceView6"
@@ -91,7 +91,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/exit5"
+            android:id="@+id/exit3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/surfaceView6"
@@ -116,7 +116,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/classRoom6"
+            android:id="@+id/classRoom4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/surfaceView7"
@@ -129,7 +129,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/course6"
+            android:id="@+id/course4"
             android:layout_width="174dp"
             android:layout_height="37dp"
             android:layout_alignTop="@+id/surfaceView7"
@@ -148,7 +148,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/exit6"
+            android:id="@+id/exit4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/surfaceView7"
@@ -180,8 +180,8 @@
             android:layout_alignTop="@+id/fullscreen_content_controls"
             android:layout_alignParentStart="true"
             android:layout_marginStart="0dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/colorPrimaryDark"
+            android:layout_marginTop="36dp"
+            android:background="@color/common_google_signin_btn_text_dark_default"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -328,6 +328,21 @@
             tools:ignore="UselessParent">
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="227dp"
+            android:layout_height="35dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="86dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="98dp"
+            android:text="Emploi du temps"
+            android:textAlignment="center"
+            android:textColor="@color/common_google_signin_btn_text_dark_default"
+            android:textSize="24sp" />
 
     </RelativeLayout>
 

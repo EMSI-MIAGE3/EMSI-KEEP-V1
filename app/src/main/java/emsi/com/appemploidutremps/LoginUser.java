@@ -79,7 +79,7 @@ public class LoginUser extends AppCompatActivity {
                                                                 switch (connectedUser.getRole()){
                                                                     case "Etudiant" :intent=new Intent(LoginUser.this,CalendarTimeTible.class);
                                                                     break;
-                                                                    case "Professeur" :intent=new Intent(LoginUser.this,Login.class);
+                                                                    case "Professeur" :intent=new Intent(LoginUser.this,CalendarTimeTible.class);
                                                                     break;
                                                                     case "Administrateur" :intent=new Intent(LoginUser.this,AdminActivity.class);
                                                                     break;

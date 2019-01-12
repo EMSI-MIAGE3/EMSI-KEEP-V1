@@ -2,8 +2,9 @@ package emsi.com.appemploidutremps.models;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
-public class Seance {
+public class Seance implements Comparable<Seance> {
 
     private String matiere;
     private String description;
@@ -14,10 +15,19 @@ public class Seance {
     private String note;
     private String classeId;
     private Professeur professeur;
-    private int groupe;
+    private List<Integer> groupe;
+    private String salle;
 
 
     public Seance() {
+    }
+
+    public String getSalle() {
+        return salle;
+    }
+
+    public void setSalle(String salle) {
+        this.salle = salle;
     }
 
     public String getMatiere() {
@@ -92,13 +102,14 @@ public class Seance {
         this.professeur = professeur;
     }
 
-    public int getGroupe() {
+    public List<Integer> getGroupe() {
         return groupe;
     }
 
-    public void setGroupe(int groupe) {
+    public void setGroupe(List<Integer> groupe) {
         this.groupe = groupe;
     }
+
 
     @Override
     public String toString() {
@@ -113,6 +124,14 @@ public class Seance {
                 ", classeId='" + classeId + '\'' +
                 ", professeur=" + professeur +
                 ", groupe=" + groupe +
+                ", salle='" + salle + '\'' +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Seance s) {
+        if(this.dateDebut.getHeure() >  s.dateDebut.getHeure()) return 1;
+        else if(this.dateDebut.getHeure() <  s.dateDebut.getHeure()) return -1;
+        return 0;
     }
 }

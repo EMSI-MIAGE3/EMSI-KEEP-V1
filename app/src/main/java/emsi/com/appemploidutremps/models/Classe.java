@@ -6,6 +6,8 @@ import java.util.Map;
 
 public class Classe implements Serializable {
 
+
+    private String id;
     private String nom;
     private Filiere filiere;
     private List<String> etudiants;
@@ -17,6 +19,14 @@ public class Classe implements Serializable {
     }
 
     public Classe() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getNom() {
@@ -43,10 +53,12 @@ public class Classe implements Serializable {
         this.etudiants = etudiants;
     }
 
+
     @Override
     public String toString() {
         return "Classe{" +
-                "nom='" + nom + '\'' +
+                "id='" + id + '\'' +
+                ", nom='" + nom + '\'' +
                 ", filiere=" + filiere +
                 ", etudiants=" + etudiants +
                 '}';
