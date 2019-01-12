@@ -17,9 +17,11 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -42,6 +44,9 @@ public class TimeTable extends AppCompatActivity {
     private static final boolean AUTO_HIDE = true;
     private User user;
     private Calendar calendar;
+    static ArrayList<Seance> seances = new ArrayList<>();
+
+
     /**
      * If {@link #AUTO_HIDE} is set, the number of milliseconds to wait after
      * user interaction before hiding the system UI.
@@ -106,6 +111,15 @@ public class TimeTable extends AppCompatActivity {
         }
     };
 
+    static Classe cl = new Classe();
+    static String idClass = "";
+
+
+    TextView entrance;
+    TextView exit;
+    TextView cours;
+    TextView clssRoom;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,9 +138,69 @@ public class TimeTable extends AppCompatActivity {
                 toggle();
             }
         });
-        ListView listView1 =(ListView) findViewById(R.id.Timetible_List);
-        CustomAdapter customAdapter=new CustomAdapter();
-        listView1.setAdapter(customAdapter);
+
+
+        user = (User) getIntent().getSerializableExtra("UserToTimetible");
+        calendar = (Calendar) getIntent().getSerializableExtra("ChosenDate");
+
+
+        ClasseDAO.getInstance().getClasseDAO().whereArrayContains("etudiants", user.getId()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    idClass = document.getId();
+                    cl = (Classe) document.toObject(Classe.class);
+                    //Log.w("TimeTable", cl.getNom()+"");
+                }
+            }
+        });
+        //Log.w("TimeTableAfter", idClass+"");
+
+        SeanceDAO.getInstance().getSeanceDAO().whereEqualTo("classeId", idClass)
+                .whereEqualTo("groupe", user.getGroupe())
+                .whereEqualTo("jour.jour", calendar.getTime().getDay())
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                seances.clear();
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    Seance sc = document.toObject(Seance.class);
+                    if (sc.getJour().getDate().getDate() == calendar.getTime().getDate()
+                            && sc.getJour().getDate().getMonth() == calendar.getTime().getMonth()) {
+                        seances.add(sc);
+
+                    }
+                }
+
+
+                Log.w("TimeTableSeanca", "====" + seances.size());
+                switch (seances.size()) {
+                    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    case 2: {
+                        entrance = (TextView) findViewById(R.id.entrance2);
+                        exit = (TextView) findViewById(R.id.exit2);
+                        cours = (TextView) findViewById(R.id.course2);
+                        clssRoom = (TextView) findViewById(R.id.classRoom2);
+
+                        entrance.setText(seances.get(1).getDateDebut().getHeure() + "h " + seances.get(1).getDateDebut().getMinute());
+                        exit.setText(seances.get(1).getDateFin().getHeure() + "h " + seances.get(1).getDateFin().getMinute());
+                        cours.setText(seances.get(1).getMatiere());
+                        clssRoom.setText(seances.get(1).getGroupe() + "");
+                    }
+                    case 1: {
+                        entrance = (TextView) findViewById(R.id.entrance1);
+                        exit = (TextView) findViewById(R.id.exit1);
+                        cours = (TextView) findViewById(R.id.course1);
+                        clssRoom = (TextView) findViewById(R.id.classRoom1);
+                        entrance.setText(seances.get(0).getDateDebut().getHeure() + "h " + seances.get(0).getDateDebut().getMinute());
+                        exit.setText(seances.get(0).getDateFin().getHeure() + "h " + seances.get(0).getDateFin().getMinute());
+                        cours.setText(seances.get(0).getMatiere());
+                        clssRoom.setText(seances.get(0).getGroupe() + "");
+                    }
+                }
+
+            }
+        });
 
 
     }
@@ -134,9 +208,6 @@ public class TimeTable extends AppCompatActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-
-        user=(User) getIntent().getSerializableExtra("UserToTimetible");
-        calendar=(Calendar) getIntent().getSerializableExtra("ChosenDate");
 
 
         delayedHide(100);
@@ -188,12 +259,10 @@ public class TimeTable extends AppCompatActivity {
 
     class CustomAdapter extends BaseAdapter {
 
-        Classe cl=new Classe();
-        String idClass="";
 
         @Override
         public int getCount() {
-         return  3;
+            return 3;
         }
 
         @Override
@@ -207,35 +276,16 @@ public class TimeTable extends AppCompatActivity {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            convertView = getLayoutInflater().inflate(R.layout.session,null);
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            convertView = getLayoutInflater().inflate(R.layout.session, null);
 
 
             //Log.w("TimeTable","=====> User "+user.getId()+"");
             //Log.w("TimeTable",calendar.getTime()+"");
 
-            ClasseDAO.getInstance().getClasseDAO().whereArrayContains("etudiants",user.getId()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        idClass=document.getId();
-                        cl=(Classe) document.toObject(Classe.class);
-                        //Log.w("TimeTable", cl+"");
-                    }
-                }
-            });
-            //Log.w("TimeTableAfter", idClass+"");
 
-            SeanceDAO.getInstance().getSeanceDAO().whereEqualTo("classeId",idClass)
-                    .whereEqualTo("groupe",user.getGroupe())
-                    .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    for (QueryDocumentSnapshot document : task.getResult()){
-                        Log.w("TimeTableSeanca", document.getId()+"");
-                    }
-                }
-            });
+            //Timestamp tm=new Timestamp(calendar.getTime());
+            Log.w("positionListView", seances + "");
 
             return convertView;
         }

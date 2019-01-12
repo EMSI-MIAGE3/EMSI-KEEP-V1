@@ -7,24 +7,17 @@ public class Seance {
 
     private String matiere;
     private String description;
-    private Date jour;
-    private Date dateDebut;
-    private Date dateFin;
+    private SeanceDate jour;
+    private SeanceTime dateDebut;
+    private SeanceTime dateFin;
     private Type type;
     private String note;
     private String classeId;
     private Professeur professeur;
     private int groupe;
 
+
     public Seance() {
-    }
-
-    public int getGroupe() {
-        return groupe;
-    }
-
-    public void setGroupe(int groupe) {
-        this.groupe = groupe;
     }
 
     public String getMatiere() {
@@ -43,27 +36,27 @@ public class Seance {
         this.description = description;
     }
 
-    public Date getJour() {
+    public SeanceDate getJour() {
         return jour;
     }
 
-    public void setJour(Date jour) {
+    public void setJour(SeanceDate jour) {
         this.jour = jour;
     }
 
-    public Date getDateDebut() {
+    public SeanceTime getDateDebut() {
         return dateDebut;
     }
 
-    public void setDateDebut(Date dateDebut) {
+    public void setDateDebut(SeanceTime dateDebut) {
         this.dateDebut = dateDebut;
     }
 
-    public Date getDateFin() {
+    public SeanceTime getDateFin() {
         return dateFin;
     }
 
-    public void setDateFin(Date dateFin) {
+    public void setDateFin(SeanceTime dateFin) {
         this.dateFin = dateFin;
     }
 
@@ -97,6 +90,14 @@ public class Seance {
 
     public void setProfesseur(Professeur professeur) {
         this.professeur = professeur;
+    }
+
+    public int getGroupe() {
+        return groupe;
+    }
+
+    public void setGroupe(int groupe) {
+        this.groupe = groupe;
     }
 
     @Override
