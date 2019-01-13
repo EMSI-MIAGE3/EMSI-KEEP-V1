@@ -1,0 +1,196 @@
+package emsi.com.appemploidutremps.fragment;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+import com.algolia.search.saas.Client;
+import com.algolia.search.saas.Index;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import emsi.com.appemploidutremps.CalendarTimeTible;
+import emsi.com.appemploidutremps.LoginUser;
+import emsi.com.appemploidutremps.R;
+import emsi.com.appemploidutremps.dao.ClasseDAO;
+import emsi.com.appemploidutremps.dao.FiliereDAO;
+import emsi.com.appemploidutremps.dao.SeanceDAO;
+import emsi.com.appemploidutremps.models.Classe;
+import emsi.com.appemploidutremps.models.Filiere;
+import emsi.com.appemploidutremps.models.Seance;
+import emsi.com.appemploidutremps.models.User;
+
+public class ConsulterClasse extends Fragment {
+
+    List<JSONObject> jsObj = new ArrayList<>();
+    Client client = new Client("UBFMREIX6X", "db63e7f87d5b879040e324b01aec1ee9");
+    Index index = client.getIndex("EmploiDuTemps");
+
+
+    private Spinner spinnerAnnee;
+    private Spinner spinnerFiliere;
+    private Spinner spinnerClasse;
+    private Button consulterButton;
+    private List<Classe> classes=new ArrayList<>();
+    private List<Filiere> filieres=new ArrayList<>();
+
+
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        return inflater.inflate(R.layout.fragment_consulter_classe, container, false);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+
+        spinnerAnnee =(Spinner) getView().findViewById(R.id.annee);
+        spinnerClasse=(Spinner) getView().findViewById(R.id.classe);
+        spinnerFiliere=(Spinner) getView().findViewById(R.id.filiere);
+        consulterButton =(Button) getView().findViewById(R.id.consulter_button);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.annee_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerAnnee.setAdapter(adapter);
+
+        spinnerAnnee.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                filieres.clear();
+                FiliereDAO.getInstance().getFiliereDAO()
+                        .whereEqualTo("annee",Integer.parseInt(spinnerAnnee.getSelectedItem().toString()))
+                        .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            filieres.add(document.toObject(Filiere.class));
+
+                        }
+
+                        ArrayAdapter<Filiere> dataAdapter = new ArrayAdapter<Filiere>(getContext(),
+                                android.R.layout.simple_spinner_item, filieres);
+                        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinnerFiliere.setAdapter(dataAdapter);
+                    }
+                } );
+
+                /*
+
+                */
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+                spinnerClasse.setEnabled(false);
+            }
+        });
+
+
+
+
+        spinnerFiliere.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                Filiere selectedFiliere=(Filiere) spinnerFiliere.getSelectedItem();
+                classes.clear();
+                ClasseDAO.getInstance().getClasseDAO()
+                        .whereEqualTo("filiere.annee",selectedFiliere.getAnnee())
+                        .whereEqualTo("filiere.nom",selectedFiliere.getNom())
+                        .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            classes.add(document.toObject(Classe.class));
+
+                        }
+
+                        ArrayAdapter<Classe> dataAdapter = new ArrayAdapter<Classe>(getContext(),
+                                android.R.layout.simple_spinner_item, classes);
+                        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinnerClasse.setAdapter(dataAdapter);
+
+
+                    }
+                } );
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        consulterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent=new Intent(getContext(),CalendarTimeTible.class);
+                Classe selectedClasse =(Classe) spinnerClasse.getSelectedItem();
+                intent.putExtra("selectedClasse",selectedClasse);
+                intent.putExtra("ConnectedUser",(User) getActivity().getIntent().getSerializableExtra("ConnectedUser"));
+                startActivity(intent);
+                //Log.w("GetIntentFragmentUser",(User) getActivity().getIntent().getSerializableExtra("ConnectedUser")+"");
+               //Log.w("GetIntentFragmentClasse",selectedClasse.getId()+"");
+            }
+        });
+
+
+
+
+       /* ClasseDAO.getInstance().getClasseDAO()
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+
+                    Log.w("LOGONIA",document.toObject(Classe.class).getNom());
+                    try {
+                        jsObj.add(
+                                new JSONObject().put("nom", document.toObject(Classe.class).getNom())
+                                        .put("id", "5cb5TUgxKAtHgRhinzSn")
+                        );
+                        index.addObjectsAsync(new JSONArray(jsObj), null);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        });
+        */
+    }
+}

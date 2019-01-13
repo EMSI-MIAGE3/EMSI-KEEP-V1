@@ -14,6 +14,7 @@ import android.widget.CalendarView;
 
 import java.util.Calendar;
 
+import emsi.com.appemploidutremps.models.Classe;
 import emsi.com.appemploidutremps.models.User;
 
 /**
@@ -128,6 +129,7 @@ public class CalendarTimeTible extends AppCompatActivity {
                 Log.w("Click","====>"+calendar.getTime().toString());
                 Intent intent=new Intent(CalendarTimeTible.this,TimeTable.class);
                 intent.putExtra("UserToTimetable",(User) getIntent().getSerializableExtra("ConnectedUser"));
+                intent.putExtra("ClasseToTimtable",(Classe) getIntent().getSerializableExtra("selectedClasse"));
                 intent.putExtra("ChosenDate",calendar);
                 startActivity(intent);
             }

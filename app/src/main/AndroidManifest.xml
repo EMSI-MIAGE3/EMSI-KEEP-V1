@@ -14,22 +14,29 @@
         <activity android:name=".LoginUser">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TestActivity" >
+        <activity android:name=".TestActivity">
+
+
 
         </activity>
         <activity
             android:name=".TimeTable"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_time_table"
-            android:theme="@style/FullscreenTheme"></activity>
+            android:theme="@style/FullscreenTheme" />
         <activity
             android:name=".CalendarTimeTible"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_calendar_time_tible"
-            android:theme="@style/FullscreenTheme"></activity>
+            android:theme="@style/FullscreenTheme" />
+        <activity
+            android:name=".AdminCP"
+            android:label="@string/title_activity_admin_cp"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

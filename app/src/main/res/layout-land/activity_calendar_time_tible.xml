@@ -42,23 +42,28 @@
 
         <CalendarView
             android:id="@+id/calendarView"
-            android:layout_width="wrap_content"
-            android:layout_height="375dp"
-            android:layout_alignParentStart="true"
+            android:layout_width="399dp"
+            android:layout_height="298dp"
+            android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginBottom="42dp" />
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="31dp"
+            android:layout_toEndOf="@+id/textView4" />
 
         <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/textView4"
+            android:layout_width="223dp"
+            android:layout_height="124dp"
+            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="103dp"
-            android:text="Choisir une date"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="98dp"
+            android:fontFamily="casual"
+            android:text="Choizir une \n date"
+            android:textAlignment="center"
             android:textColor="@color/common_google_signin_btn_text_dark_default"
             android:textSize="30sp" />
     </RelativeLayout>

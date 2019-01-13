@@ -81,7 +81,7 @@ public class LoginUser extends AppCompatActivity {
                                                                     break;
                                                                     case "Professeur" :intent=new Intent(LoginUser.this,CalendarTimeTible.class);
                                                                     break;
-                                                                    case "Administrateur" :intent=new Intent(LoginUser.this,AdminActivity.class);
+                                                                    case "Administrateur" :intent=new Intent(LoginUser.this,AdminCP.class);
                                                                     break;
                                                                 }
                                                                 intent.putExtra("ConnectedUser",connectedUser);

@@ -16,8 +16,10 @@ import java.util.List;
 import java.util.Timer;
 
 import emsi.com.appemploidutremps.dao.ClasseDAO;
+import emsi.com.appemploidutremps.dao.FiliereDAO;
 import emsi.com.appemploidutremps.dao.SeanceDAO;
 import emsi.com.appemploidutremps.models.Classe;
+import emsi.com.appemploidutremps.models.Filiere;
 import emsi.com.appemploidutremps.models.Jour;
 import emsi.com.appemploidutremps.models.Professeur;
 import emsi.com.appemploidutremps.models.Seance;
@@ -38,28 +40,13 @@ public class TestActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-                Seance seance=new Seance();
-                seance.setClasseId("5cb5TUgxKAtHgRhinzSn");
-                Calendar calendar=Calendar.getInstance();
-                Calendar calendar1=Calendar.getInstance();
-                Calendar calendar2=Calendar.getInstance();
-
-
-                calendar.set(2019,1,21,14,30,0);
-                seance.setJour(new SeanceDate(Jour.LUNDI.getNbrJour(),calendar.getTime()));
-                calendar1.set(2019,1,15,14,30,0);
-                seance.setDateDebut(new SeanceTime(8,30));
-                calendar2.set(2019,1,15,16,30,0);
-                seance.setDateFin(new SeanceTime(10,30));
-                seance.setMatiere("STRUTS");
-                seance.setProfesseur(new Professeur("prof1","name","name","adresse",22,"Professeur"));
-
-                Log.w("Seance",""+seance);
-
-                SeanceDAO.getInstance().addSeance(seance);
-                Log.w("Seance",""+seance);
+                Filiere filiere=new Filiere();
+                filiere.setNom("MIAGE");
+                filiere.setAnnee(5);
+                FiliereDAO.getInstance().addFiliere(filiere);
+                filiere.setNom("IIR");
+                filiere.setAnnee(3);
+                FiliereDAO.getInstance().addFiliere(filiere);
             }
         });
     }
