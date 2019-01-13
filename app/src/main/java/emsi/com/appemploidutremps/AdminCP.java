@@ -16,11 +16,21 @@ import android.view.MenuItem;
 import emsi.com.appemploidutremps.fragment.Ajouter;
 import emsi.com.appemploidutremps.fragment.ConsulterClasse;
 import emsi.com.appemploidutremps.fragment.ConsulterProf;
+import emsi.com.appemploidutremps.models.Classe;
 
 public class AdminCP extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
+    private static Classe classeToPass;
+
+    public static Classe getClasseToPass() {
+        return classeToPass;
+    }
+
+    public static void setClasseToPass(Classe classeToPass) {
+        AdminCP.classeToPass = classeToPass;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

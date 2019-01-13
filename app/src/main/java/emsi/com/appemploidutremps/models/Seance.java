@@ -11,7 +11,7 @@ public class Seance implements Comparable<Seance> {
     private SeanceDate jour;
     private SeanceTime dateDebut;
     private SeanceTime dateFin;
-    private Type type;
+    private String type;
     private String note;
     private String classeId;
     private Professeur professeur;
@@ -19,14 +19,22 @@ public class Seance implements Comparable<Seance> {
     private String salle;
 
 
+
     public Seance() {
     }
 
-    public String getSalle() {
-        return salle;
-    }
-
-    public void setSalle(String salle) {
+    public Seance(String matiere, String description, SeanceDate jour, SeanceTime dateDebut, SeanceTime dateFin,
+                  String type, String note, String classeId, Professeur professeur, List<Integer> groupe, String salle) {
+        this.matiere = matiere;
+        this.description = description;
+        this.jour = jour;
+        this.dateDebut = dateDebut;
+        this.dateFin = dateFin;
+        this.type = type;
+        this.note = note;
+        this.classeId = classeId;
+        this.professeur = professeur;
+        this.groupe = groupe;
         this.salle = salle;
     }
 
@@ -70,11 +78,11 @@ public class Seance implements Comparable<Seance> {
         this.dateFin = dateFin;
     }
 
-    public Type getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(Type type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -110,6 +118,13 @@ public class Seance implements Comparable<Seance> {
         this.groupe = groupe;
     }
 
+    public String getSalle() {
+        return salle;
+    }
+
+    public void setSalle(String salle) {
+        this.salle = salle;
+    }
 
     @Override
     public String toString() {
