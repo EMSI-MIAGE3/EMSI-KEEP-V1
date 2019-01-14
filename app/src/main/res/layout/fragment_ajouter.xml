@@ -16,38 +16,38 @@
 
     <Spinner
         android:id="@+id/annee2"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_width="206dp"
+        android:layout_height="63dp"
         android:layout_below="@+id/textView6"
-        android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="0dp"
+        android:layout_marginStart="123dp"
         android:layout_marginTop="42dp"
         android:layout_marginEnd="0dp"
+        android:layout_toEndOf="@+id/textView11"
         android:textAlignment="center" />
 
     <Spinner
         android:id="@+id/filiere2"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="64dp"
         android:layout_below="@+id/annee2"
-        android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="0dp"
+        android:layout_marginStart="131dp"
         android:layout_marginTop="41dp"
         android:layout_marginEnd="0dp"
+        android:layout_toEndOf="@+id/textView12"
         android:textAlignment="center" />
 
     <Spinner
         android:id="@+id/classe2"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_width="203dp"
+        android:layout_height="67dp"
         android:layout_below="@+id/filiere2"
-        android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="41dp"
+        android:layout_marginStart="123dp"
+        android:layout_marginTop="36dp"
         android:layout_marginEnd="0dp"
+        android:layout_toEndOf="@+id/textView13"
         android:textAlignment="center" />
 
     <Button
@@ -78,5 +78,38 @@
         android:text="AJOUTER SESSION"
         android:textAlignment="center"
         android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView6"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="56dp"
+        android:text="Annee"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView11"
+        android:layout_alignStart="@+id/textView11"
+        android:layout_marginStart="-3dp"
+        android:layout_marginTop="72dp"
+        android:text="Filiére"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView12"
+        android:layout_alignStart="@+id/textView12"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="66dp"
+        android:text="Classe"
+        android:textSize="24sp" />
 
 </RelativeLayout>

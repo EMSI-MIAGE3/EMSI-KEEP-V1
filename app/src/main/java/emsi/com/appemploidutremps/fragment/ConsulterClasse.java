@@ -43,9 +43,6 @@ import emsi.com.appemploidutremps.models.User;
 
 public class ConsulterClasse extends Fragment {
 
-    List<JSONObject> jsObj = new ArrayList<>();
-    Client client = new Client("UBFMREIX6X", "db63e7f87d5b879040e324b01aec1ee9");
-    Index index = client.getIndex("EmploiDuTemps");
 
 
     private Spinner spinnerAnnee;
@@ -171,26 +168,6 @@ public class ConsulterClasse extends Fragment {
 
 
 
-       /* ClasseDAO.getInstance().getClasseDAO()
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                for (QueryDocumentSnapshot document : task.getResult()) {
 
-                    Log.w("LOGONIA",document.toObject(Classe.class).getNom());
-                    try {
-                        jsObj.add(
-                                new JSONObject().put("nom", document.toObject(Classe.class).getNom())
-                                        .put("id", "5cb5TUgxKAtHgRhinzSn")
-                        );
-                        index.addObjectsAsync(new JSONArray(jsObj), null);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            }
-        });
-        */
     }
 }

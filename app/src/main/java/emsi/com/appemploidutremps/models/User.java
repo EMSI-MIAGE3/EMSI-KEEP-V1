@@ -89,15 +89,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id='" + id + '\'' +
-                ", email='" + email + '\'' +
-                ", nom='" + nom + '\'' +
-                ", prenom='" + prenom + '\'' +
-                ", adresse='" + adresse + '\'' +
-                ", groupe=" + groupe +
-                ", role='" + role + '\'' +
-                '}';
+        return  nom + " " + prenom ;
     }
 }
 
