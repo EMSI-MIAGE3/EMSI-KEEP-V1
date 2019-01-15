@@ -1,8 +1,9 @@
 package emsi.com.appemploidutremps.models;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class SeanceDate {
+public class SeanceDate  implements Serializable {
 
     private int jour;
     private Date date;

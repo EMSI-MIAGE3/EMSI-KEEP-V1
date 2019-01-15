@@ -1,10 +1,11 @@
 package emsi.com.appemploidutremps.models;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class Seance implements Comparable<Seance> {
+public class Seance implements Comparable<Seance>, Serializable {
 
     private String matiere;
     private String description;

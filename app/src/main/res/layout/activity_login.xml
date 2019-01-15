@@ -7,17 +7,6 @@
     tools:context=".Login">
 
     <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.735" />
-
-    <TextView
         android:id="@+id/EmailText"
         android:layout_width="534dp"
         android:layout_height="37dp"
@@ -50,16 +39,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/EmailText"
         app:layout_constraintVertical_bias="0.069" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Button"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/pwdText"
-        tools:layout_editor_absoluteX="147dp" />
 
 </RelativeLayout>

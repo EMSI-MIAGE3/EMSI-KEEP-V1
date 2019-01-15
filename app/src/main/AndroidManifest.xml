@@ -18,11 +18,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TestActivity">
-
-
-
-        </activity>
+        <activity android:name=".TestActivity"></activity>
         <activity
             android:name=".TimeTable"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -36,7 +32,8 @@
         <activity
             android:name=".AdminCP"
             android:label="@string/title_activity_admin_cp"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".modifierSeeance"></activity>
     </application>
 
 </manifest>

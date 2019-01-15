@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -122,13 +123,17 @@ public class TimeTable extends AppCompatActivity {
     TextView entrance;
     TextView exit;
     TextView cours;
-    TextView clssRoom;
+    TextView clssRoom,supprimer;
+    SurfaceView surfaceView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_time_table);
+
+
+
 
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
@@ -148,7 +153,7 @@ public class TimeTable extends AppCompatActivity {
         calendar = (Calendar) getIntent().getSerializableExtra("ChosenDate");
         classe=(Classe) getIntent().getSerializableExtra("ClasseToTimtable");
 
-        Log.w("ClaaaaaaaaseWsslat",classe+"");
+     //   Log.w("ClaaaaaaaaseWsslat",classe+"");
 
         if ("Professeur".equals(user.getRole())) {
             SeanceDAO.getInstance().getSeanceDAO().whereEqualTo("professeur.id", user.getId())
@@ -178,6 +183,14 @@ public class TimeTable extends AppCompatActivity {
                             cours = (TextView) findViewById(R.id.course4);
                             clssRoom = (TextView) findViewById(R.id.classRoom4);
 
+                            surfaceView=(SurfaceView) findViewById(R.id.surface4);
+                            surfaceView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    //TODO PROF MODIF
+                                }
+                            });
+
                             entrance.setText(seances.get(3).getDateDebut().getHeure() + "h " + seances.get(3).getDateDebut().getMinute());
                             exit.setText(seances.get(3).getDateFin().getHeure() + "h " + seances.get(3).getDateFin().getMinute());
                             cours.setText(seances.get(3).getMatiere());
@@ -188,6 +201,15 @@ public class TimeTable extends AppCompatActivity {
                             exit = (TextView) findViewById(R.id.exit3);
                             cours = (TextView) findViewById(R.id.course3);
                             clssRoom = (TextView) findViewById(R.id.classRoom3);
+
+                            surfaceView=(SurfaceView) findViewById(R.id.surface3);
+                            surfaceView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    //TODO PROF MODIF
+                                }
+                            });
+
 
                             entrance.setText(seances.get(2).getDateDebut().getHeure() + "h " + seances.get(2).getDateDebut().getMinute());
                             exit.setText(seances.get(2).getDateFin().getHeure() + "h " + seances.get(2).getDateFin().getMinute());
@@ -200,6 +222,14 @@ public class TimeTable extends AppCompatActivity {
                             cours = (TextView) findViewById(R.id.course2);
                             clssRoom = (TextView) findViewById(R.id.classRoom2);
 
+                            surfaceView=(SurfaceView) findViewById(R.id.surface2);
+                            surfaceView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    //TODO PROF MODIF
+                                }
+                            });
+
                             entrance.setText(seances.get(1).getDateDebut().getHeure() + "h " + seances.get(1).getDateDebut().getMinute());
                             exit.setText(seances.get(1).getDateFin().getHeure() + "h " + seances.get(1).getDateFin().getMinute());
                             cours.setText(seances.get(1).getMatiere());
@@ -210,6 +240,13 @@ public class TimeTable extends AppCompatActivity {
                             exit = (TextView) findViewById(R.id.exit1);
                             cours = (TextView) findViewById(R.id.course1);
                             clssRoom = (TextView) findViewById(R.id.classRoom1);
+                            surfaceView=(SurfaceView) findViewById(R.id.surface1);
+                            surfaceView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    //TODO PROF MODIF
+                                }
+                            });
                             entrance.setText(seances.get(0).getDateDebut().getHeure() + "h " + seances.get(0).getDateDebut().getMinute());
                             exit.setText(seances.get(0).getDateFin().getHeure() + "h " + seances.get(0).getDateFin().getMinute());
                             cours.setText(seances.get(0).getMatiere());
@@ -247,6 +284,14 @@ public class TimeTable extends AppCompatActivity {
                             exit = (TextView) findViewById(R.id.exit4);
                             cours = (TextView) findViewById(R.id.course4);
                             clssRoom = (TextView) findViewById(R.id.classRoom4);
+                            surfaceView=(SurfaceView) findViewById(R.id.surface4);
+                            surfaceView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    //TODO ADMIN MODIF
+                                }
+                            });
+
 
                             entrance.setText(seances.get(3).getDateDebut().getHeure() + "h " + seances.get(3).getDateDebut().getMinute());
                             exit.setText(seances.get(3).getDateFin().getHeure() + "h " + seances.get(3).getDateFin().getMinute());
@@ -258,6 +303,14 @@ public class TimeTable extends AppCompatActivity {
                             exit = (TextView) findViewById(R.id.exit3);
                             cours = (TextView) findViewById(R.id.course3);
                             clssRoom = (TextView) findViewById(R.id.classRoom3);
+                            surfaceView=(SurfaceView) findViewById(R.id.surface3);
+                            surfaceView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    //TODO ADMIN MODIF
+                                }
+                            });
+
 
                             entrance.setText(seances.get(2).getDateDebut().getHeure() + "h " + seances.get(2).getDateDebut().getMinute());
                             exit.setText(seances.get(2).getDateFin().getHeure() + "h " + seances.get(2).getDateFin().getMinute());
@@ -269,6 +322,13 @@ public class TimeTable extends AppCompatActivity {
                             exit = (TextView) findViewById(R.id.exit2);
                             cours = (TextView) findViewById(R.id.course2);
                             clssRoom = (TextView) findViewById(R.id.classRoom2);
+                            surfaceView=(SurfaceView) findViewById(R.id.surface2);
+                            surfaceView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    //TODO ADMIN MODIF
+                                }
+                            });
 
                             entrance.setText(seances.get(1).getDateDebut().getHeure() + "h " + seances.get(1).getDateDebut().getMinute());
                             exit.setText(seances.get(1).getDateFin().getHeure() + "h " + seances.get(1).getDateFin().getMinute());
@@ -276,17 +336,29 @@ public class TimeTable extends AppCompatActivity {
                             clssRoom.setText(seances.get(1).getSalle() + "");
                         }
                         case 1: {
+
                             entrance = (TextView) findViewById(R.id.entrance1);
                             exit = (TextView) findViewById(R.id.exit1);
                             cours = (TextView) findViewById(R.id.course1);
                             clssRoom = (TextView) findViewById(R.id.classRoom1);
+                            supprimer=(TextView) findViewById(R.id.supprimer1);
+                            supprimer.setVisibility(View.VISIBLE);
+                            surfaceView=(SurfaceView) findViewById(R.id.surface1);
+                            surfaceView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                   Intent intent=new Intent(TimeTable.this,modifierSeeance.class);
+                                    intent.putExtra("SelectedSeance",seances.get(0));
+                                    startActivity(intent);
+                                }
+                            });
+
                             entrance.setText(seances.get(0).getDateDebut().getHeure() + "h " + seances.get(0).getDateDebut().getMinute());
                             exit.setText(seances.get(0).getDateFin().getHeure() + "h " + seances.get(0).getDateFin().getMinute());
                             cours.setText(seances.get(0).getMatiere());
                             clssRoom.setText(seances.get(0).getSalle() + "");
                         }
                     }
-
                 }
             });
         }
@@ -300,8 +372,7 @@ public class TimeTable extends AppCompatActivity {
                         cl = (Classe) document.toObject(Classe.class);
                         //Log.w("TimeTable", cl.getNom()+"");
                     }
-                }
-            });
+
             //Log.w("TimeTableAfter", idClass+"");
 
 
@@ -370,6 +441,9 @@ public class TimeTable extends AppCompatActivity {
                             clssRoom.setText(seances.get(0).getSalle() + "");
                         }
                     }
+
+                }
+            });
 
                 }
             });

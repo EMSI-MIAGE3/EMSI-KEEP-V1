@@ -1,6 +1,8 @@
 package emsi.com.appemploidutremps.models;
 
-public class SeanceTime {
+import java.io.Serializable;
+
+public class SeanceTime  implements Serializable {
 
     private int heure,minute;
 

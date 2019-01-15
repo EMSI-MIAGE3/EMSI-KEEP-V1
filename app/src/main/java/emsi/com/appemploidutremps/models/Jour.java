@@ -1,6 +1,8 @@
 package emsi.com.appemploidutremps.models;
 
-public enum Jour {
+import java.io.Serializable;
+
+public enum Jour implements Serializable {
     DIMANCHE(0),
     LUNDI(1),
     MARDI(2),
