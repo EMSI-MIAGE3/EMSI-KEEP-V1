@@ -1,12 +1,14 @@
 package emsi.com.appemploidutremps;
 
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -43,6 +45,9 @@ public class TestActivity extends AppCompatActivity {
     TextView cours;
     TextView clssRoom;
 
+    ViewAdapter viewAdapter;
+    ListView lv;
+
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -53,6 +58,8 @@ public class TestActivity extends AppCompatActivity {
         user = (User) getIntent().getSerializableExtra("UserToTimetable");
         calendar = (Calendar) getIntent().getSerializableExtra("ChosenDate");
         classe=(Classe) getIntent().getSerializableExtra("ClasseToTimtable");
+
+        lv=(ListView) findViewById(R.id.TestList);
 
         seances.add(new Seance());
 
@@ -84,6 +91,7 @@ public class TestActivity extends AppCompatActivity {
                                 Log.w("ClaaaaaaaaseWsslat","*******"+seances.size());
                             }
                         }
+
                     }
                 });
             }
@@ -91,9 +99,9 @@ public class TestActivity extends AppCompatActivity {
 
 
 
+        viewAdapter=new ViewAdapter(TestActivity.this,R.layout.session,seances);
 
-        ListView lv=(ListView) findViewById(R.id.TestList);
-        ViewAdapter viewAdapter=new ViewAdapter();
+
         lv.setAdapter(viewAdapter);
 
     }
@@ -104,22 +112,13 @@ public class TestActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    class ViewAdapter extends BaseAdapter{
 
 
-        @Override
-        public int getCount() {
-            return seances.size();
-        }
+    class ViewAdapter extends ArrayAdapter<Seance> {
 
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
 
-        @Override
-        public long getItemId(int position) {
-            return 0;
+        public ViewAdapter(@NonNull Context context, int resource, @NonNull List<Seance> objects) {
+            super(context, resource, objects);
         }
 
         @Override

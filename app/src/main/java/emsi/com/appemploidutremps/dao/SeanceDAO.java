@@ -2,6 +2,7 @@ package emsi.com.appemploidutremps.dao;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import emsi.com.appemploidutremps.models.Seance;
@@ -29,6 +30,8 @@ public class SeanceDAO {
     }
 
     public void addSeance(Seance seance){
-        seanceDAO.document().set(seance);
+        DocumentReference ref=seanceDAO.document();
+        seance.setId(ref.getId());
+        ref.set(seance);
     }
 }

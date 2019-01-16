@@ -7,6 +7,7 @@ import java.util.List;
 
 public class Seance implements Comparable<Seance>, Serializable {
 
+    private String id;
     private String matiere;
     private String description;
     private SeanceDate jour;
@@ -37,6 +38,14 @@ public class Seance implements Comparable<Seance>, Serializable {
         this.professeur = professeur;
         this.groupe = groupe;
         this.salle = salle;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getMatiere() {
@@ -130,12 +139,13 @@ public class Seance implements Comparable<Seance>, Serializable {
     @Override
     public String toString() {
         return "Seance{" +
-                "matiere='" + matiere + '\'' +
+                "id='" + id + '\'' +
+                ", matiere='" + matiere + '\'' +
                 ", description='" + description + '\'' +
                 ", jour=" + jour +
                 ", dateDebut=" + dateDebut +
                 ", dateFin=" + dateFin +
-                ", type=" + type +
+                ", type='" + type + '\'' +
                 ", note='" + note + '\'' +
                 ", classeId='" + classeId + '\'' +
                 ", professeur=" + professeur +

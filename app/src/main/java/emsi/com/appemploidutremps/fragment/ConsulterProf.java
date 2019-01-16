@@ -1,5 +1,6 @@
 package emsi.com.appemploidutremps.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -29,6 +30,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import emsi.com.appemploidutremps.CalendarTimeTible;
 import emsi.com.appemploidutremps.R;
 import emsi.com.appemploidutremps.dao.ClasseDAO;
 import emsi.com.appemploidutremps.dao.UserDAO;
@@ -65,7 +67,7 @@ public class ConsulterProf extends Fragment {
         resultList.clear();
 
         UserDAO.getInstance().getUserDAO()
-                //.whereEqualTo("role","Professeur")
+                .whereEqualTo("role","Professeur")
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -113,7 +115,10 @@ public class ConsulterProf extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 User u=(User) parent.getItemAtPosition(position);
-                Log.w("SelectedAdapter",u.getEmail()+"");
+                Intent intent=new Intent(getContext(),CalendarTimeTible.class);
+                intent.putExtra("ConnectedUser",u);
+                startActivity(intent);
+
             }
         });
 

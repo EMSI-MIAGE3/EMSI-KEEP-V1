@@ -13,26 +13,25 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.Timestamp;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.core.OrderBy;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import emsi.com.appemploidutremps.dao.ClasseDAO;
 import emsi.com.appemploidutremps.dao.SeanceDAO;
 import emsi.com.appemploidutremps.models.Classe;
-import emsi.com.appemploidutremps.models.Jour;
 import emsi.com.appemploidutremps.models.Seance;
 import emsi.com.appemploidutremps.models.User;
 
@@ -50,6 +49,8 @@ public class TimeTable extends AppCompatActivity {
     private Calendar calendar;
     private Classe classe;
     static ArrayList<Seance> seances = new ArrayList<>();
+    static Map<Seance, Classe> seanceClasses = new HashMap<>();
+    Seance sc;
 
 
     /**
@@ -123,7 +124,10 @@ public class TimeTable extends AppCompatActivity {
     TextView entrance;
     TextView exit;
     TextView cours;
-    TextView clssRoom,supprimer;
+    TextView clssRoom, supprimer1, ajouterNote1,
+            supprimer2, ajouterNote2,
+            supprimer3, ajouterNote3,
+            supprimer4, ajouterNote4;
     SurfaceView surfaceView;
 
     @Override
@@ -131,8 +135,6 @@ public class TimeTable extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_time_table);
-
-
 
 
         mVisible = true;
@@ -151,11 +153,12 @@ public class TimeTable extends AppCompatActivity {
 
         user = (User) getIntent().getSerializableExtra("UserToTimetable");
         calendar = (Calendar) getIntent().getSerializableExtra("ChosenDate");
-        classe=(Classe) getIntent().getSerializableExtra("ClasseToTimtable");
+        classe = (Classe) getIntent().getSerializableExtra("ClasseToTimtable");
 
-     //   Log.w("ClaaaaaaaaseWsslat",classe+"");
+        //   Log.w("ClaaaaaaaaseWsslat",classe+"");
 
         if ("Professeur".equals(user.getRole())) {
+
             SeanceDAO.getInstance().getSeanceDAO().whereEqualTo("professeur.id", user.getId())
                     .whereEqualTo("jour.jour", calendar.getTime().getDay())
                     // .orderBy("dateDebut.heure", Query.Direction.DESCENDING)
@@ -163,16 +166,29 @@ public class TimeTable extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     seances.clear();
+                    seanceClasses.clear();
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        Seance sc = document.toObject(Seance.class);
+                        sc = document.toObject(Seance.class);
                         if (sc.getJour().getDate().getDate() == calendar.getTime().getDate()
                                 && sc.getJour().getDate().getMonth() == calendar.getTime().getMonth()) {
                             seances.add(sc);
-
+                           /* ClasseDAO.getInstance().getClasseDAO()
+                                    .whereEqualTo("id",sc.getClasseId())
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            for (QueryDocumentSnapshot document : task.getResult()){
+                                            Log.w("gtClaaaaaas",document.toObject(Classe.class)+"");
+                                            seanceClasses.put(sc,document.toObject(Classe.class));
+                                            }
+                                        }
+                                    });*/
                         }
                     }
 
                     Collections.sort(seances);
+
 
                     Log.w("TimeTableSeanca", "====" + seances.size());
                     switch (seances.size()) {
@@ -183,7 +199,7 @@ public class TimeTable extends AppCompatActivity {
                             cours = (TextView) findViewById(R.id.course4);
                             clssRoom = (TextView) findViewById(R.id.classRoom4);
 
-                            surfaceView=(SurfaceView) findViewById(R.id.surface4);
+                            surfaceView = (SurfaceView) findViewById(R.id.surface4);
                             surfaceView.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -202,7 +218,7 @@ public class TimeTable extends AppCompatActivity {
                             cours = (TextView) findViewById(R.id.course3);
                             clssRoom = (TextView) findViewById(R.id.classRoom3);
 
-                            surfaceView=(SurfaceView) findViewById(R.id.surface3);
+                            surfaceView = (SurfaceView) findViewById(R.id.surface3);
                             surfaceView.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -222,7 +238,7 @@ public class TimeTable extends AppCompatActivity {
                             cours = (TextView) findViewById(R.id.course2);
                             clssRoom = (TextView) findViewById(R.id.classRoom2);
 
-                            surfaceView=(SurfaceView) findViewById(R.id.surface2);
+                            surfaceView = (SurfaceView) findViewById(R.id.surface2);
                             surfaceView.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -240,7 +256,7 @@ public class TimeTable extends AppCompatActivity {
                             exit = (TextView) findViewById(R.id.exit1);
                             cours = (TextView) findViewById(R.id.course1);
                             clssRoom = (TextView) findViewById(R.id.classRoom1);
-                            surfaceView=(SurfaceView) findViewById(R.id.surface1);
+                            surfaceView = (SurfaceView) findViewById(R.id.surface1);
                             surfaceView.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -256,8 +272,7 @@ public class TimeTable extends AppCompatActivity {
 
                 }
             });
-        }
-        else if ("Administrateur".equals(user.getRole())) {
+        } else if ("Administrateur".equals(user.getRole())) {
             SeanceDAO.getInstance().getSeanceDAO().whereEqualTo("classeId", classe.getId())
                     .whereEqualTo("jour.jour", calendar.getTime().getDay())
                     // .orderBy("dateDebut.heure", Query.Direction.DESCENDING)
@@ -284,18 +299,52 @@ public class TimeTable extends AppCompatActivity {
                             exit = (TextView) findViewById(R.id.exit4);
                             cours = (TextView) findViewById(R.id.course4);
                             clssRoom = (TextView) findViewById(R.id.classRoom4);
-                            surfaceView=(SurfaceView) findViewById(R.id.surface4);
+                            supprimer4 = (TextView) findViewById(R.id.supprimer4);
+                            supprimer4.setVisibility(View.VISIBLE);
+                            supprimer4.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    SeanceDAO.getInstance().getSeanceDAO()
+                                            .document(seances.get(3).getId())
+                                            .delete()
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Toast toast = Toast.makeText(getApplicationContext(),
+                                                            "La seance est suprimmeé avec avec succès",
+                                                            Toast.LENGTH_SHORT);
+                                                    toast.show();
+                                                    finish();
+                                                    startActivity(getIntent());
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Toast toast = Toast.makeText(getApplicationContext(),
+                                                            "Erreur",
+                                                            Toast.LENGTH_SHORT);
+                                                    toast.show();
+                                                }
+                                            });
+                                }
+                            });
+                            ajouterNote4 = (TextView) findViewById(R.id.modifier4);
+                            ajouterNote4.setVisibility(View.VISIBLE);
+                            surfaceView = (SurfaceView) findViewById(R.id.surface4);
                             surfaceView.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    //TODO ADMIN MODIF
+                                    Intent intent = new Intent(TimeTable.this, modifierSeeance.class);
+                                    intent.putExtra("SelectedSeance", seances.get(3));
+                                    startActivity(intent);
                                 }
                             });
 
 
                             entrance.setText(seances.get(3).getDateDebut().getHeure() + "h " + seances.get(3).getDateDebut().getMinute());
                             exit.setText(seances.get(3).getDateFin().getHeure() + "h " + seances.get(3).getDateFin().getMinute());
-                            cours.setText(seances.get(3).getMatiere());
+                            cours.setText(seances.get(3).getMatiere()+" (Mr. "+seances.get(3).getProfesseur()+")");
                             clssRoom.setText(seances.get(3).getSalle() + "");
                         }
                         case 3: {
@@ -303,18 +352,52 @@ public class TimeTable extends AppCompatActivity {
                             exit = (TextView) findViewById(R.id.exit3);
                             cours = (TextView) findViewById(R.id.course3);
                             clssRoom = (TextView) findViewById(R.id.classRoom3);
-                            surfaceView=(SurfaceView) findViewById(R.id.surface3);
+                            supprimer3 = (TextView) findViewById(R.id.supprimer3);
+                            supprimer3.setVisibility(View.VISIBLE);
+                            supprimer3.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    SeanceDAO.getInstance().getSeanceDAO()
+                                            .document(seances.get(2).getId())
+                                            .delete()
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Toast toast = Toast.makeText(getApplicationContext(),
+                                                            "La seance est suprimmeé avec avec succès",
+                                                            Toast.LENGTH_SHORT);
+                                                    toast.show();
+                                                    finish();
+                                                    startActivity(getIntent());
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Toast toast = Toast.makeText(getApplicationContext(),
+                                                            "Erreur",
+                                                            Toast.LENGTH_SHORT);
+                                                    toast.show();
+                                                }
+                                            });
+                                }
+                            });
+                            ajouterNote3 = (TextView) findViewById(R.id.modifier3);
+                            ajouterNote3.setVisibility(View.VISIBLE);
+                            surfaceView = (SurfaceView) findViewById(R.id.surface3);
                             surfaceView.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    //TODO ADMIN MODIF
+                                    Intent intent = new Intent(TimeTable.this, modifierSeeance.class);
+                                    intent.putExtra("SelectedSeance", seances.get(2));
+                                    startActivity(intent);
                                 }
                             });
 
 
                             entrance.setText(seances.get(2).getDateDebut().getHeure() + "h " + seances.get(2).getDateDebut().getMinute());
                             exit.setText(seances.get(2).getDateFin().getHeure() + "h " + seances.get(2).getDateFin().getMinute());
-                            cours.setText(seances.get(2).getMatiere());
+                            cours.setText(seances.get(2).getMatiere()+" (Mr. "+seances.get(2).getProfesseur()+")");
                             clssRoom.setText(seances.get(2).getSalle() + "");
                         }
                         case 2: {
@@ -322,17 +405,51 @@ public class TimeTable extends AppCompatActivity {
                             exit = (TextView) findViewById(R.id.exit2);
                             cours = (TextView) findViewById(R.id.course2);
                             clssRoom = (TextView) findViewById(R.id.classRoom2);
-                            surfaceView=(SurfaceView) findViewById(R.id.surface2);
+                            supprimer2 = (TextView) findViewById(R.id.supprimer2);
+                            supprimer2.setVisibility(View.VISIBLE);
+                            supprimer2.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    SeanceDAO.getInstance().getSeanceDAO()
+                                            .document(seances.get(1).getId())
+                                            .delete()
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Toast toast = Toast.makeText(getApplicationContext(),
+                                                            "La seance est suprimmeé avec avec succès",
+                                                            Toast.LENGTH_SHORT);
+                                                    toast.show();
+                                                    finish();
+                                                    startActivity(getIntent());
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Toast toast = Toast.makeText(getApplicationContext(),
+                                                            "Erreur",
+                                                            Toast.LENGTH_SHORT);
+                                                    toast.show();
+                                                }
+                                            });
+                                }
+                            });
+                            ajouterNote2 = (TextView) findViewById(R.id.modifier2);
+                            ajouterNote2.setVisibility(View.VISIBLE);
+                            surfaceView = (SurfaceView) findViewById(R.id.surface2);
                             surfaceView.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    //TODO ADMIN MODIF
+                                    Intent intent = new Intent(TimeTable.this, modifierSeeance.class);
+                                    intent.putExtra("SelectedSeance", seances.get(1));
+                                    startActivity(intent);
                                 }
                             });
 
                             entrance.setText(seances.get(1).getDateDebut().getHeure() + "h " + seances.get(1).getDateDebut().getMinute());
                             exit.setText(seances.get(1).getDateFin().getHeure() + "h " + seances.get(1).getDateFin().getMinute());
-                            cours.setText(seances.get(1).getMatiere());
+                            cours.setText(seances.get(1).getMatiere()+" (Mr. "+seances.get(1).getProfesseur()+")");
                             clssRoom.setText(seances.get(1).getSalle() + "");
                         }
                         case 1: {
@@ -341,28 +458,57 @@ public class TimeTable extends AppCompatActivity {
                             exit = (TextView) findViewById(R.id.exit1);
                             cours = (TextView) findViewById(R.id.course1);
                             clssRoom = (TextView) findViewById(R.id.classRoom1);
-                            supprimer=(TextView) findViewById(R.id.supprimer1);
-                            supprimer.setVisibility(View.VISIBLE);
-                            surfaceView=(SurfaceView) findViewById(R.id.surface1);
+                            supprimer1 = (TextView) findViewById(R.id.supprimer1);
+                            supprimer1.setVisibility(View.VISIBLE);
+                            supprimer1.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    SeanceDAO.getInstance().getSeanceDAO()
+                                            .document(seances.get(0).getId())
+                                            .delete()
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Toast toast = Toast.makeText(getApplicationContext(),
+                                                            "La seance est suprimmeé avec avec succès",
+                                                            Toast.LENGTH_SHORT);
+                                                    toast.show();
+                                                    finish();
+                                                    startActivity(getIntent());
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Toast toast = Toast.makeText(getApplicationContext(),
+                                                            "Erreur",
+                                                            Toast.LENGTH_SHORT);
+                                                    toast.show();
+                                                }
+                                            });
+                                }
+                            });
+                            ajouterNote1 = (TextView) findViewById(R.id.modifier1);
+                            ajouterNote1.setVisibility(View.VISIBLE);
+                            surfaceView = (SurfaceView) findViewById(R.id.surface1);
                             surfaceView.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                   Intent intent=new Intent(TimeTable.this,modifierSeeance.class);
-                                    intent.putExtra("SelectedSeance",seances.get(0));
+                                    Intent intent = new Intent(TimeTable.this, modifierSeeance.class);
+                                    intent.putExtra("SelectedSeance", seances.get(0));
                                     startActivity(intent);
                                 }
                             });
 
                             entrance.setText(seances.get(0).getDateDebut().getHeure() + "h " + seances.get(0).getDateDebut().getMinute());
                             exit.setText(seances.get(0).getDateFin().getHeure() + "h " + seances.get(0).getDateFin().getMinute());
-                            cours.setText(seances.get(0).getMatiere());
+                            cours.setText(seances.get(0).getMatiere()+" (Mr. "+seances.get(0).getProfesseur()+")");
                             clssRoom.setText(seances.get(0).getSalle() + "");
                         }
                     }
                 }
             });
-        }
-        else {
+        } else {
 
             ClasseDAO.getInstance().getClasseDAO().whereArrayContains("etudiants", user.getId()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
@@ -373,77 +519,77 @@ public class TimeTable extends AppCompatActivity {
                         //Log.w("TimeTable", cl.getNom()+"");
                     }
 
-            //Log.w("TimeTableAfter", idClass+"");
+                    //Log.w("TimeTableAfter", idClass+"");
 
 
-            SeanceDAO.getInstance().getSeanceDAO().whereEqualTo("classeId", idClass)
-                    .whereArrayContains("groupe", user.getGroupe())
-                    .whereEqualTo("jour.jour", calendar.getTime().getDay())
-                    .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    seances.clear();
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Seance sc = document.toObject(Seance.class);
-                        if (sc.getJour().getDate().getDate() == calendar.getTime().getDate()
-                                && sc.getJour().getDate().getMonth() == calendar.getTime().getMonth()) {
-                            seances.add(sc);
+                    SeanceDAO.getInstance().getSeanceDAO().whereEqualTo("classeId", idClass)
+                            .whereArrayContains("groupe", user.getGroupe())
+                            .whereEqualTo("jour.jour", calendar.getTime().getDay())
+                            .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            seances.clear();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Seance sc = document.toObject(Seance.class);
+                                if (sc.getJour().getDate().getDate() == calendar.getTime().getDate()
+                                        && sc.getJour().getDate().getMonth() == calendar.getTime().getMonth()) {
+                                    seances.add(sc);
+
+                                }
+                            }
+
+                            Collections.sort(seances);
+
+                            Log.w("TimeTableSeanca", "====" + seances.size());
+                            switch (seances.size()) {
+                                //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                case 4: {
+                                    entrance = (TextView) findViewById(R.id.entrance4);
+                                    exit = (TextView) findViewById(R.id.exit4);
+                                    cours = (TextView) findViewById(R.id.course4);
+                                    clssRoom = (TextView) findViewById(R.id.classRoom4);
+
+                                    entrance.setText(seances.get(3).getDateDebut().getHeure() + "h " + seances.get(3).getDateDebut().getMinute());
+                                    exit.setText(seances.get(3).getDateFin().getHeure() + "h " + seances.get(3).getDateFin().getMinute());
+                                    cours.setText(seances.get(3).getMatiere());
+                                    clssRoom.setText(seances.get(3).getSalle() + "");
+                                }
+                                case 3: {
+                                    entrance = (TextView) findViewById(R.id.entrance3);
+                                    exit = (TextView) findViewById(R.id.exit3);
+                                    cours = (TextView) findViewById(R.id.course3);
+                                    clssRoom = (TextView) findViewById(R.id.classRoom3);
+
+                                    entrance.setText(seances.get(2).getDateDebut().getHeure() + "h " + seances.get(2).getDateDebut().getMinute());
+                                    exit.setText(seances.get(2).getDateFin().getHeure() + "h " + seances.get(2).getDateFin().getMinute());
+                                    cours.setText(seances.get(2).getMatiere());
+                                    clssRoom.setText(seances.get(2).getSalle() + "");
+                                }
+                                case 2: {
+                                    entrance = (TextView) findViewById(R.id.entrance2);
+                                    exit = (TextView) findViewById(R.id.exit2);
+                                    cours = (TextView) findViewById(R.id.course2);
+                                    clssRoom = (TextView) findViewById(R.id.classRoom2);
+
+                                    entrance.setText(seances.get(1).getDateDebut().getHeure() + "h " + seances.get(1).getDateDebut().getMinute());
+                                    exit.setText(seances.get(1).getDateFin().getHeure() + "h " + seances.get(1).getDateFin().getMinute());
+                                    cours.setText(seances.get(1).getMatiere());
+                                    clssRoom.setText(seances.get(1).getSalle() + "");
+                                }
+                                case 1: {
+                                    entrance = (TextView) findViewById(R.id.entrance1);
+                                    exit = (TextView) findViewById(R.id.exit1);
+                                    cours = (TextView) findViewById(R.id.course1);
+                                    clssRoom = (TextView) findViewById(R.id.classRoom1);
+                                    entrance.setText(seances.get(0).getDateDebut().getHeure() + "h " + seances.get(0).getDateDebut().getMinute());
+                                    exit.setText(seances.get(0).getDateFin().getHeure() + "h " + seances.get(0).getDateFin().getMinute());
+                                    cours.setText(seances.get(0).getMatiere());
+                                    clssRoom.setText(seances.get(0).getSalle() + "");
+                                }
+                            }
 
                         }
-                    }
-
-                    Collections.sort(seances);
-
-                    Log.w("TimeTableSeanca", "====" + seances.size());
-                    switch (seances.size()) {
-                        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                        case 4: {
-                            entrance = (TextView) findViewById(R.id.entrance4);
-                            exit = (TextView) findViewById(R.id.exit4);
-                            cours = (TextView) findViewById(R.id.course4);
-                            clssRoom = (TextView) findViewById(R.id.classRoom4);
-
-                            entrance.setText(seances.get(3).getDateDebut().getHeure() + "h " + seances.get(3).getDateDebut().getMinute());
-                            exit.setText(seances.get(3).getDateFin().getHeure() + "h " + seances.get(3).getDateFin().getMinute());
-                            cours.setText(seances.get(3).getMatiere());
-                            clssRoom.setText(seances.get(3).getSalle() + "");
-                        }
-                        case 3: {
-                            entrance = (TextView) findViewById(R.id.entrance3);
-                            exit = (TextView) findViewById(R.id.exit3);
-                            cours = (TextView) findViewById(R.id.course3);
-                            clssRoom = (TextView) findViewById(R.id.classRoom3);
-
-                            entrance.setText(seances.get(2).getDateDebut().getHeure() + "h " + seances.get(2).getDateDebut().getMinute());
-                            exit.setText(seances.get(2).getDateFin().getHeure() + "h " + seances.get(2).getDateFin().getMinute());
-                            cours.setText(seances.get(2).getMatiere());
-                            clssRoom.setText(seances.get(2).getSalle() + "");
-                        }
-                        case 2: {
-                            entrance = (TextView) findViewById(R.id.entrance2);
-                            exit = (TextView) findViewById(R.id.exit2);
-                            cours = (TextView) findViewById(R.id.course2);
-                            clssRoom = (TextView) findViewById(R.id.classRoom2);
-
-                            entrance.setText(seances.get(1).getDateDebut().getHeure() + "h " + seances.get(1).getDateDebut().getMinute());
-                            exit.setText(seances.get(1).getDateFin().getHeure() + "h " + seances.get(1).getDateFin().getMinute());
-                            cours.setText(seances.get(1).getMatiere());
-                            clssRoom.setText(seances.get(1).getSalle() + "");
-                        }
-                        case 1: {
-                            entrance = (TextView) findViewById(R.id.entrance1);
-                            exit = (TextView) findViewById(R.id.exit1);
-                            cours = (TextView) findViewById(R.id.course1);
-                            clssRoom = (TextView) findViewById(R.id.classRoom1);
-                            entrance.setText(seances.get(0).getDateDebut().getHeure() + "h " + seances.get(0).getDateDebut().getMinute());
-                            exit.setText(seances.get(0).getDateFin().getHeure() + "h " + seances.get(0).getDateFin().getMinute());
-                            cours.setText(seances.get(0).getMatiere());
-                            clssRoom.setText(seances.get(0).getSalle() + "");
-                        }
-                    }
-
-                }
-            });
+                    });
 
                 }
             });
