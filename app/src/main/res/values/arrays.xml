@@ -17,6 +17,6 @@
     <string-array name="type_array">
         <item>SEANCE</item>
         <item>CONTROLE</item>
-        <item>RATTRAPEG</item>
+        <item>RATTRAPAGE</item>
     </string-array>
 </resources>

@@ -1,5 +1,5 @@
 package emsi.com.appemploidutremps.models;
 
 enum Type {
-    SEANCE,CONTROLE,RATTRAPEG;
+    SEANCE,CONTROLE,RATTRAPAGE;
 }

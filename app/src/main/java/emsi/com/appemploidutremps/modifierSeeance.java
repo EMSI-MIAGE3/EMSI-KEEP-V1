@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -26,7 +27,7 @@ import emsi.com.appemploidutremps.models.SeanceTime;
 
 public class modifierSeeance extends AppCompatActivity {
 
-    private EditText matiere;
+    private EditText matiere,notes;
     private EditText heureDeb, minDeb, heureFin, minFin;
     private EditText salle, professeur;
     private Spinner type, groupe;
@@ -42,6 +43,7 @@ public class modifierSeeance extends AppCompatActivity {
         setContentView(R.layout.activity_modifier_seeance);
 
         matiere = findViewById(R.id.MatiereModif);
+        notes = findViewById(R.id.noteModif);
         heureDeb = findViewById(R.id.HeureDebModif);
         minDeb = findViewById(R.id.MinDebModif);
         heureFin = findViewById(R.id.HeureFinModif);
@@ -55,7 +57,8 @@ public class modifierSeeance extends AppCompatActivity {
         final Seance seance = (Seance) getIntent().getSerializableExtra("SelectedSeance");
 
         matiere.setText(seance.getMatiere());
-       heureDeb.setText(seance.getDateDebut().getHeure()+"");
+        notes.setText(seance.getNote());
+        heureDeb.setText(seance.getDateDebut().getHeure()+"");
         minDeb.setText(seance.getDateDebut().getMinute()+"");
         heureFin.setText(seance.getDateFin().getHeure()+"");
         minFin.setText(seance.getDateFin().getMinute()+"");
@@ -130,6 +133,7 @@ public class modifierSeeance extends AppCompatActivity {
 
 
                 seance.setMatiere(matiere.getText().toString());
+                seance.setNote(notes.getText().toString());
                 seance.setJour(new SeanceDate(setDate.getTime().getDay(),setDate.getTime()));
                 seance.setDateDebut(new SeanceTime(Integer.parseInt(heureDeb.getText().toString()),Integer.parseInt(minDeb.getText().toString())));
                 seance.setDateFin(new SeanceTime(Integer.parseInt(heureFin.getText().toString()),Integer.parseInt(minFin.getText().toString())));
@@ -143,6 +147,11 @@ public class modifierSeeance extends AppCompatActivity {
                 seance.setSalle(salle.getText().toString());
                 SeanceDAO.getInstance().getSeanceDAO().document(seance.getId()).set(seance);
                 Log.w("GetSeanceModifier", "After =====>" + seance.toString());
+
+                Toast toast = Toast.makeText(getApplicationContext(),
+                        "La séance est modifiée",
+                        Toast.LENGTH_SHORT);
+                toast.show();
             }
         });
 

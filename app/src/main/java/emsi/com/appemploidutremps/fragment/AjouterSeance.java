@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.preference.PreferenceActivity;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,6 +20,10 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -27,14 +32,16 @@ import java.util.List;
 import emsi.com.appemploidutremps.AdminCP;
 import emsi.com.appemploidutremps.R;
 import emsi.com.appemploidutremps.dao.SeanceDAO;
+import emsi.com.appemploidutremps.dao.UserDAO;
 import emsi.com.appemploidutremps.models.Classe;
+import emsi.com.appemploidutremps.models.Professeur;
 import emsi.com.appemploidutremps.models.Seance;
 import emsi.com.appemploidutremps.models.SeanceDate;
 import emsi.com.appemploidutremps.models.SeanceTime;
 
 public class AjouterSeance extends Fragment {
 
-    private Spinner spinnerType,spinnerGroupe;
+    private Spinner spinnerType,spinnerGroupe,spinnerProf;
 
 
     private Button getDate,ajouterSeance;
@@ -43,6 +50,8 @@ public class AjouterSeance extends Fragment {
     private static Calendar seanDate=Calendar.getInstance();
 
     EditText matiereTxt,heureDeb,minuteDeb,heureFin,minuteFin,salle,nbrSemaine,notes;
+
+    private static List<Professeur> professeurs=new ArrayList<>();
 
 
     @Nullable
@@ -72,6 +81,19 @@ public class AjouterSeance extends Fragment {
         notes=(EditText) getView().findViewById(R.id.notes_ajout);
 
         ajouterSeance=(Button) getView().findViewById(R.id.ajouter_seance);
+        professeurs.clear();
+        UserDAO.getInstance().getUserDAO().whereEqualTo("role","Professeur")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    professeurs=task.getResult().toObjects(Professeur.class);
+
+                ArrayAdapter<Professeur> dataAdapter = new ArrayAdapter<Professeur>(getContext(),
+                        android.R.layout.simple_spinner_item, professeurs);
+                dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinnerProf.setAdapter(dataAdapter);
+            }
+        });
 
         //Spinner group and Type_array
         spinnerGroupe=(Spinner) getView().findViewById(R.id.seance_roupe);
@@ -85,6 +107,9 @@ public class AjouterSeance extends Fragment {
                 R.array.type_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerType.setAdapter(adapter);
+
+        spinnerProf=(Spinner) getView().findViewById(R.id.ajouterProf);
+
 
         //Date time picker
 
@@ -134,7 +159,8 @@ public class AjouterSeance extends Fragment {
                         new SeanceTime(Integer.parseInt(heureFin.getText().toString()),Integer.parseInt(minuteFin.getText().toString())),
                         spinnerType.getSelectedItem().toString(),
                         notes.getText().toString(),AdminCP.getClasseToPass().getId(),
-                        null,groupe,salle.getText().toString());
+                        (Professeur) spinnerProf.getSelectedItem(),groupe,salle.getText().toString());
+
                 seance.setClasse(AdminCP.getClasseToPass());
 
                 Calendar cal=Calendar.getInstance();

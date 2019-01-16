@@ -217,7 +217,7 @@ public class TimeTable extends AppCompatActivity {
 
                             entrance.setText(seances.get(3).getDateDebut().getHeure() + "h " + seances.get(3).getDateDebut().getMinute());
                             exit.setText(seances.get(3).getDateFin().getHeure() + "h " + seances.get(3).getDateFin().getMinute());
-                            cours.setText(seances.get(3).getMatiere());
+                            cours.setText(seances.get(3).getMatiere()+"\n G: ("+seances.get(3).getGroupe()+")");
                             clssRoom.setText(seances.get(3).getSalle() + "");
                         }
                         case 3: {
@@ -237,7 +237,7 @@ public class TimeTable extends AppCompatActivity {
 
                             entrance.setText(seances.get(2).getDateDebut().getHeure() + "h " + seances.get(2).getDateDebut().getMinute());
                             exit.setText(seances.get(2).getDateFin().getHeure() + "h " + seances.get(2).getDateFin().getMinute());
-                            cours.setText(seances.get(2).getMatiere());
+                            cours.setText(seances.get(2).getMatiere()+"\n G: ("+seances.get(2).getGroupe()+")");
                             clssRoom.setText(seances.get(2).getSalle() + "");
                         }
                         case 2: {
@@ -256,7 +256,7 @@ public class TimeTable extends AppCompatActivity {
 
                             entrance.setText(seances.get(1).getDateDebut().getHeure() + "h " + seances.get(1).getDateDebut().getMinute());
                             exit.setText(seances.get(1).getDateFin().getHeure() + "h " + seances.get(1).getDateFin().getMinute());
-                            cours.setText(seances.get(1).getMatiere());
+                            cours.setText(seances.get(1).getMatiere()+"\n G: ("+seances.get(1).getGroupe()+")");
                             clssRoom.setText(seances.get(1).getSalle() + "");
                         }
                         case 1: {
@@ -273,7 +273,7 @@ public class TimeTable extends AppCompatActivity {
                             });
                             entrance.setText(seances.get(0).getDateDebut().getHeure() + "h " + seances.get(0).getDateDebut().getMinute());
                             exit.setText(seances.get(0).getDateFin().getHeure() + "h " + seances.get(0).getDateFin().getMinute());
-                            cours.setText(seances.get(0).getMatiere());
+                            cours.setText(seances.get(0).getMatiere()+"\n G: ("+seances.get(0).getGroupe()+")");
                             clssRoom.setText(seances.get(0).getSalle() + "");
                         }
                     }
