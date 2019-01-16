@@ -16,6 +16,7 @@ public class Seance implements Comparable<Seance>, Serializable {
     private String type;
     private String note;
     private String classeId;
+    private Classe classe;
     private Professeur professeur;
     private List<Integer> groupe;
     private String salle;
@@ -136,6 +137,14 @@ public class Seance implements Comparable<Seance>, Serializable {
         this.salle = salle;
     }
 
+    public Classe getClasse() {
+        return classe;
+    }
+
+    public void setClasse(Classe classe) {
+        this.classe = classe;
+    }
+
     @Override
     public String toString() {
         return "Seance{" +
@@ -148,6 +157,7 @@ public class Seance implements Comparable<Seance>, Serializable {
                 ", type='" + type + '\'' +
                 ", note='" + note + '\'' +
                 ", classeId='" + classeId + '\'' +
+                ", classe=" + classe +
                 ", professeur=" + professeur +
                 ", groupe=" + groupe +
                 ", salle='" + salle + '\'' +

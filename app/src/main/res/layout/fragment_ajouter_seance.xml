@@ -189,13 +189,25 @@
         android:id="@+id/ajouter_seance"
         android:layout_width="wrap_content"
         android:layout_height="36dp"
-        android:layout_below="@+id/nbr_seance"
+        android:layout_below="@+id/notes_ajout"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="97dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="70dp"
+        android:layout_marginStart="83dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="83dp"
         android:background="@color/colorPrimary"
         android:text="Ajouter" />
+
+    <EditText
+        android:id="@+id/notes_ajout"
+        android:layout_width="347dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nbr_seance"
+        android:layout_alignStart="@+id/nbr_seance"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="23dp"
+        android:ems="10"
+        android:hint="Notes..."
+        android:inputType="textMultiLine" />
 
 </RelativeLayout>

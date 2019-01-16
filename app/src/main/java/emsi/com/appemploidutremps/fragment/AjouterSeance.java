@@ -42,7 +42,7 @@ public class AjouterSeance extends Fragment {
 
     private static Calendar seanDate=Calendar.getInstance();
 
-    EditText matiereTxt,heureDeb,minuteDeb,heureFin,minuteFin,salle,nbrSemaine;
+    EditText matiereTxt,heureDeb,minuteDeb,heureFin,minuteFin,salle,nbrSemaine,notes;
 
 
     @Nullable
@@ -69,6 +69,7 @@ public class AjouterSeance extends Fragment {
         minuteFin=(EditText) getView().findViewById(R.id.minute_seance_picker_fin);
         salle=(EditText) getView().findViewById(R.id.seance_salle);
         nbrSemaine=(EditText) getView().findViewById(R.id.nbr_seance) ;
+        notes=(EditText) getView().findViewById(R.id.notes_ajout);
 
         ajouterSeance=(Button) getView().findViewById(R.id.ajouter_seance);
 
@@ -132,8 +133,9 @@ public class AjouterSeance extends Fragment {
                         new SeanceTime(Integer.parseInt(heureDeb.getText().toString()),Integer.parseInt(minuteDeb.getText().toString())),
                         new SeanceTime(Integer.parseInt(heureFin.getText().toString()),Integer.parseInt(minuteFin.getText().toString())),
                         spinnerType.getSelectedItem().toString(),
-                        "Note",AdminCP.getClasseToPass().getId(),
+                        notes.getText().toString(),AdminCP.getClasseToPass().getId(),
                         null,groupe,salle.getText().toString());
+                seance.setClasse(AdminCP.getClasseToPass());
 
                 Calendar cal=Calendar.getInstance();
                 cal.setTime(seance.getJour().getDate());
@@ -143,6 +145,8 @@ public class AjouterSeance extends Fragment {
                     cal.add(Calendar.DATE,7);
                     seance.setJour(new SeanceDate(cal.getTime().getDay(),cal.getTime()));
                 }
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new ConsulterClasse()).commit();
             }
         });
 
@@ -153,6 +157,7 @@ public class AjouterSeance extends Fragment {
 
         Classe classe=AdminCP.getClasseToPass();
         Log.w("AjouterSeance",classe.getId()+"");
+
 
     }
 }

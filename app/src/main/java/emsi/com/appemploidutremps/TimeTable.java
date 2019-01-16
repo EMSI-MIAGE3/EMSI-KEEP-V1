@@ -1,8 +1,10 @@
 package emsi.com.appemploidutremps;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -127,8 +130,10 @@ public class TimeTable extends AppCompatActivity {
     TextView clssRoom, supprimer1, ajouterNote1,
             supprimer2, ajouterNote2,
             supprimer3, ajouterNote3,
-            supprimer4, ajouterNote4;
+            supprimer4, ajouterNote4,
+            dateOfDay;
     SurfaceView surfaceView;
+    Dialog noteDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,6 +141,7 @@ public class TimeTable extends AppCompatActivity {
 
         setContentView(R.layout.activity_time_table);
 
+        noteDialog =new Dialog(this);
 
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
@@ -155,7 +161,8 @@ public class TimeTable extends AppCompatActivity {
         calendar = (Calendar) getIntent().getSerializableExtra("ChosenDate");
         classe = (Classe) getIntent().getSerializableExtra("ClasseToTimtable");
 
-        //   Log.w("ClaaaaaaaaseWsslat",classe+"");
+        dateOfDay = findViewById(R.id.dateOfDay);
+        dateOfDay.setText(calendar.get(Calendar.DAY_OF_MONTH)+" - "+(calendar.get(Calendar.MONTH)+1)+" - "+calendar.get(Calendar.YEAR));
 
         if ("Professeur".equals(user.getRole())) {
 
@@ -200,10 +207,11 @@ public class TimeTable extends AppCompatActivity {
                             clssRoom = (TextView) findViewById(R.id.classRoom4);
 
                             surfaceView = (SurfaceView) findViewById(R.id.surface4);
+                            surfaceView.setBackground(ContextCompat.getDrawable(TimeTable.this, R.color.common_google_signin_btn_text_light_default));
                             surfaceView.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    //TODO PROF MODIF
+                                    showDialog(v,seances.get(3).getNote()+"");
                                 }
                             });
 
@@ -222,7 +230,7 @@ public class TimeTable extends AppCompatActivity {
                             surfaceView.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    //TODO PROF MODIF
+                                    showDialog(v,seances.get(2).getNote()+"");
                                 }
                             });
 
@@ -242,7 +250,7 @@ public class TimeTable extends AppCompatActivity {
                             surfaceView.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    //TODO PROF MODIF
+                                    showDialog(v,seances.get(1).getNote()+"");
                                 }
                             });
 
@@ -260,7 +268,7 @@ public class TimeTable extends AppCompatActivity {
                             surfaceView.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    //TODO PROF MODIF
+                                    showDialog(v,seances.get(0).getNote()+"");
                                 }
                             });
                             entrance.setText(seances.get(0).getDateDebut().getHeure() + "h " + seances.get(0).getDateDebut().getMinute());
@@ -331,6 +339,12 @@ public class TimeTable extends AppCompatActivity {
                             });
                             ajouterNote4 = (TextView) findViewById(R.id.modifier4);
                             ajouterNote4.setVisibility(View.VISIBLE);
+                            ajouterNote4.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    showDialog(v,seances.get(3).getNote()+"");
+                                }
+                            });
                             surfaceView = (SurfaceView) findViewById(R.id.surface4);
                             surfaceView.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -384,6 +398,12 @@ public class TimeTable extends AppCompatActivity {
                             });
                             ajouterNote3 = (TextView) findViewById(R.id.modifier3);
                             ajouterNote3.setVisibility(View.VISIBLE);
+                            ajouterNote3.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    showDialog(v,seances.get(2).getNote()+"");
+                                }
+                            });
                             surfaceView = (SurfaceView) findViewById(R.id.surface3);
                             surfaceView.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -437,6 +457,12 @@ public class TimeTable extends AppCompatActivity {
                             });
                             ajouterNote2 = (TextView) findViewById(R.id.modifier2);
                             ajouterNote2.setVisibility(View.VISIBLE);
+                            ajouterNote2.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    showDialog(v,seances.get(1).getNote()+"");
+                                }
+                            });
                             surfaceView = (SurfaceView) findViewById(R.id.surface2);
                             surfaceView.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -490,6 +516,12 @@ public class TimeTable extends AppCompatActivity {
                             });
                             ajouterNote1 = (TextView) findViewById(R.id.modifier1);
                             ajouterNote1.setVisibility(View.VISIBLE);
+                            ajouterNote1.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    showDialog(v,seances.get(0).getNote()+"");
+                                }
+                            });
                             surfaceView = (SurfaceView) findViewById(R.id.surface1);
                             surfaceView.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -548,7 +580,13 @@ public class TimeTable extends AppCompatActivity {
                                     exit = (TextView) findViewById(R.id.exit4);
                                     cours = (TextView) findViewById(R.id.course4);
                                     clssRoom = (TextView) findViewById(R.id.classRoom4);
-
+                                    surfaceView = (SurfaceView) findViewById(R.id.surface4);
+                                    surfaceView.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            showDialog(v,seances.get(3).getNote()+"");
+                                        }
+                                    });
                                     entrance.setText(seances.get(3).getDateDebut().getHeure() + "h " + seances.get(3).getDateDebut().getMinute());
                                     exit.setText(seances.get(3).getDateFin().getHeure() + "h " + seances.get(3).getDateFin().getMinute());
                                     cours.setText(seances.get(3).getMatiere());
@@ -559,7 +597,13 @@ public class TimeTable extends AppCompatActivity {
                                     exit = (TextView) findViewById(R.id.exit3);
                                     cours = (TextView) findViewById(R.id.course3);
                                     clssRoom = (TextView) findViewById(R.id.classRoom3);
-
+                                    surfaceView = (SurfaceView) findViewById(R.id.surface3);
+                                    surfaceView.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            showDialog(v,seances.get(2).getNote()+"");
+                                        }
+                                    });
                                     entrance.setText(seances.get(2).getDateDebut().getHeure() + "h " + seances.get(2).getDateDebut().getMinute());
                                     exit.setText(seances.get(2).getDateFin().getHeure() + "h " + seances.get(2).getDateFin().getMinute());
                                     cours.setText(seances.get(2).getMatiere());
@@ -570,7 +614,13 @@ public class TimeTable extends AppCompatActivity {
                                     exit = (TextView) findViewById(R.id.exit2);
                                     cours = (TextView) findViewById(R.id.course2);
                                     clssRoom = (TextView) findViewById(R.id.classRoom2);
-
+                                    surfaceView = (SurfaceView) findViewById(R.id.surface2);
+                                    surfaceView.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            showDialog(v,seances.get(1).getNote()+"");
+                                        }
+                                    });
                                     entrance.setText(seances.get(1).getDateDebut().getHeure() + "h " + seances.get(1).getDateDebut().getMinute());
                                     exit.setText(seances.get(1).getDateFin().getHeure() + "h " + seances.get(1).getDateFin().getMinute());
                                     cours.setText(seances.get(1).getMatiere());
@@ -581,6 +631,13 @@ public class TimeTable extends AppCompatActivity {
                                     exit = (TextView) findViewById(R.id.exit1);
                                     cours = (TextView) findViewById(R.id.course1);
                                     clssRoom = (TextView) findViewById(R.id.classRoom1);
+                                    surfaceView = (SurfaceView) findViewById(R.id.surface1);
+                                    surfaceView.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            showDialog(v,seances.get(0).getNote()+"");
+                                        }
+                                    });
                                     entrance.setText(seances.get(0).getDateDebut().getHeure() + "h " + seances.get(0).getDateDebut().getMinute());
                                     exit.setText(seances.get(0).getDateFin().getHeure() + "h " + seances.get(0).getDateFin().getMinute());
                                     cours.setText(seances.get(0).getMatiere());
@@ -648,6 +705,24 @@ public class TimeTable extends AppCompatActivity {
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
 
+
+    public void showDialog(View v,String noteText){
+        TextView note;
+        Button close;
+
+        noteDialog.setContentView(R.layout.poupnote);
+        close=noteDialog.findViewById(R.id.closePopUpButton);
+        note=noteDialog.findViewById(R.id.notepopupview);
+        note.setText(noteText);
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                noteDialog.dismiss();
+            }
+        });
+
+        noteDialog.show();
+    }
 
     class CustomAdapter extends BaseAdapter {
 
