@@ -95,7 +95,9 @@ public class modifierSeeance extends AppCompatActivity {
         final int month= calendar.get(Calendar.MONTH);
         final int day= calendar.get(Calendar.DAY_OF_MONTH);
 
-        dateModif.setText(year+"/"+month+"/"+day);
+        dateModif.setText(year+"/"+(month+1)+"/"+day);
+
+        setDate=calendar;
 
         dateModif.setOnClickListener(new View.OnClickListener() {
             @Override

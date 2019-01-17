@@ -207,6 +207,7 @@ public class TimeTable extends AppCompatActivity {
                             clssRoom = (TextView) findViewById(R.id.classRoom4);
 
                             surfaceView = (SurfaceView) findViewById(R.id.surface4);
+                            setSurfecColor(surfaceView,seances.get(3).getType());
                             surfaceView.setBackground(ContextCompat.getDrawable(TimeTable.this, R.color.common_google_signin_btn_text_light_default));
                             surfaceView.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -227,6 +228,7 @@ public class TimeTable extends AppCompatActivity {
                             clssRoom = (TextView) findViewById(R.id.classRoom3);
 
                             surfaceView = (SurfaceView) findViewById(R.id.surface3);
+                            setSurfecColor(surfaceView,seances.get(2).getType());
                             surfaceView.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -247,6 +249,7 @@ public class TimeTable extends AppCompatActivity {
                             clssRoom = (TextView) findViewById(R.id.classRoom2);
 
                             surfaceView = (SurfaceView) findViewById(R.id.surface2);
+                            setSurfecColor(surfaceView,seances.get(1).getType());
                             surfaceView.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -265,6 +268,7 @@ public class TimeTable extends AppCompatActivity {
                             cours = (TextView) findViewById(R.id.course1);
                             clssRoom = (TextView) findViewById(R.id.classRoom1);
                             surfaceView = (SurfaceView) findViewById(R.id.surface1);
+                            setSurfecColor(surfaceView,seances.get(0).getType());
                             surfaceView.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -346,6 +350,7 @@ public class TimeTable extends AppCompatActivity {
                                 }
                             });
                             surfaceView = (SurfaceView) findViewById(R.id.surface4);
+                            setSurfecColor(surfaceView,seances.get(3).getType());
                             surfaceView.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -405,6 +410,7 @@ public class TimeTable extends AppCompatActivity {
                                 }
                             });
                             surfaceView = (SurfaceView) findViewById(R.id.surface3);
+                            setSurfecColor(surfaceView,seances.get(2).getType());
                             surfaceView.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -464,6 +470,7 @@ public class TimeTable extends AppCompatActivity {
                                 }
                             });
                             surfaceView = (SurfaceView) findViewById(R.id.surface2);
+                            setSurfecColor(surfaceView,seances.get(1).getType());
                             surfaceView.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -523,6 +530,7 @@ public class TimeTable extends AppCompatActivity {
                                 }
                             });
                             surfaceView = (SurfaceView) findViewById(R.id.surface1);
+                            setSurfecColor(surfaceView,seances.get(0).getType());
                             surfaceView.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -581,6 +589,7 @@ public class TimeTable extends AppCompatActivity {
                                     cours = (TextView) findViewById(R.id.course4);
                                     clssRoom = (TextView) findViewById(R.id.classRoom4);
                                     surfaceView = (SurfaceView) findViewById(R.id.surface4);
+                                    setSurfecColor(surfaceView,seances.get(3).getType());
                                     surfaceView.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
@@ -598,6 +607,7 @@ public class TimeTable extends AppCompatActivity {
                                     cours = (TextView) findViewById(R.id.course3);
                                     clssRoom = (TextView) findViewById(R.id.classRoom3);
                                     surfaceView = (SurfaceView) findViewById(R.id.surface3);
+                                    setSurfecColor(surfaceView,seances.get(2).getType());
                                     surfaceView.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
@@ -615,6 +625,7 @@ public class TimeTable extends AppCompatActivity {
                                     cours = (TextView) findViewById(R.id.course2);
                                     clssRoom = (TextView) findViewById(R.id.classRoom2);
                                     surfaceView = (SurfaceView) findViewById(R.id.surface2);
+                                    setSurfecColor(surfaceView,seances.get(1).getType());
                                     surfaceView.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
@@ -632,6 +643,7 @@ public class TimeTable extends AppCompatActivity {
                                     cours = (TextView) findViewById(R.id.course1);
                                     clssRoom = (TextView) findViewById(R.id.classRoom1);
                                     surfaceView = (SurfaceView) findViewById(R.id.surface1);
+                                    setSurfecColor(surfaceView,seances.get(0).getType());
                                     surfaceView.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
@@ -756,5 +768,14 @@ public class TimeTable extends AppCompatActivity {
 
             return convertView;
         }
+    }
+
+    private SurfaceView setSurfecColor(SurfaceView surfaceView,String type){
+        switch (type){
+            case "SEANCE" :surfaceView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));break;
+            case "CONTROLE" :surfaceView.setBackgroundColor(getResources().getColor(R.color.colorAccent));break;
+            case "RATTRAPAGE" :surfaceView.setBackgroundColor(getResources().getColor(R.color.design_default_color_primary_dark));break;
+        }
+        return surfaceView;
     }
 }
