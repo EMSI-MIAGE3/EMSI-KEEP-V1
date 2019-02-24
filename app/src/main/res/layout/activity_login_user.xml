@@ -4,8 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginUser"
-    android:background="@drawable/back3">
+    tools:context=".LoginUser">
+
+    <ImageView
+        android:layout_width="343dp"
+        android:layout_height="160dp"
+        android:layout_margin="20dp"
+        android:src="@drawable/auth_banner2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/emailText"
@@ -54,7 +63,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="@color/common_google_signin_btn_text_dark_default"
-        android:backgroundTint="@color/common_google_signin_btn_text_light_default"
+        android:backgroundTint="@color/colorPrimary"
         android:text="Connexion"
         android:textColor="@color/common_google_signin_btn_text_dark_default"
         app:layout_constraintBottom_toBottomOf="parent"
